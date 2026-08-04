@@ -183,44 +183,12 @@
     <div class="guppy-bubbles" id="guppyBubbles" aria-hidden="true"></div>
 
     <button class="guppy-pet" id="guppyToggle" type="button" aria-label="和小鱼聊天" aria-expanded="false">
-      <span class="guppy-pet-hint">talk to fish</span>
-      <svg class="guppy-fish" viewBox="0 0 250 150" role="img" aria-label="蓝色水彩小鱼">
-        <defs>
-          <linearGradient id="fishBodyGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#dffbff" />
-            <stop offset="0.48" stop-color="#79dbea" />
-            <stop offset="1" stop-color="#46b8d2" />
-          </linearGradient>
-          <linearGradient id="fishFinGradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#e9fff5" />
-            <stop offset="1" stop-color="#b7e7b7" />
-          </linearGradient>
-          <filter id="fishShadow" x="-30%" y="-30%" width="160%" height="180%">
-            <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#1c6e87" flood-opacity="0.22" />
-          </filter>
-        </defs>
-
-        <g filter="url(#fishShadow)">
-          <path class="guppy-tail" d="M190 66 C218 39 240 43 229 72 C240 103 215 111 188 82 Z" fill="url(#fishFinGradient)" stroke="#819b9a" stroke-width="2.1" stroke-linejoin="round" />
-          <path d="M118 26 C130 8 149 10 151 35 C138 31 126 32 118 26 Z" fill="url(#fishFinGradient)" stroke="#819b9a" stroke-width="2" />
-          <path d="M116 79 C128 64 141 67 138 86 C128 89 120 87 116 79 Z" fill="url(#fishFinGradient)" stroke="#819b9a" stroke-width="2" />
-          <path class="guppy-body" d="M28 77 C42 38 96 24 157 36 C180 41 194 54 198 70 C194 90 177 104 151 110 C91 122 42 109 28 77 Z" fill="url(#fishBodyGradient)" stroke="#7b9496" stroke-width="2.5" stroke-linejoin="round" />
-
-          <path d="M79 37 C87 45 86 57 80 65" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.72" />
-          <path d="M103 31 C111 40 110 54 104 63" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.65" />
-          <path d="M128 34 C135 42 135 54 130 64" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.72" />
-          <path d="M153 41 C159 49 158 59 154 67" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.56" />
-
-          <ellipse cx="61" cy="88" rx="9" ry="6" fill="#f2b7b1" opacity="0.62" />
-          <circle cx="51" cy="62" r="9" fill="#fff" stroke="#66787b" stroke-width="2.2" />
-          <circle cx="52" cy="63" r="3.4" fill="#263338" />
-          <circle cx="53" cy="61.5" r="1" fill="#fff" />
-          <path d="M27 80 C17 81 17 89 27 90" fill="none" stroke="#c97e7e" stroke-width="2.3" stroke-linecap="round" />
-          <path d="M27 85 C33 85 37 88 42 90" fill="none" stroke="#c97e7e" stroke-width="2.3" stroke-linecap="round" />
-          <path d="M72 52 C67 70 69 88 78 101" fill="none" stroke="#a9c9ca" stroke-width="2.4" stroke-linecap="round" opacity="0.9" />
-        </g>
-      </svg>
-      <span class="guppy-chat-badge" aria-hidden="true"><i class="fas fa-comment-dots"></i></span>
+      <span class="guppy-pet-hint">Talk to fish</span>
+      <img
+        class="guppy-fish"
+        src="./assets/cats-fish.svg"
+        alt="三只水彩猫一起举着一条蓝绿色的大鱼"
+      />
     </button>
   </aside>
 

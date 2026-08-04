@@ -1002,8 +1002,8 @@ footer {
 
 .guppy-pet {
   position: relative;
-  width: 136px;
-  height: 88px;
+  width: 172px;
+  height: 178px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -1025,23 +1025,22 @@ footer {
 
 .guppy-fish {
   position: absolute;
-  inset: -18px -22px -20px -12px;
-  width: 168px;
+  inset: 0;
+  width: 172px;
   height: auto;
-  overflow: visible;
-  transform-origin: 52% 55%;
+  display: block;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
+  object-fit: contain;
+  transform-origin: 50% 55%;
   animation: guppy-swim 2.8s ease-in-out infinite;
-}
-
-.guppy-tail {
-  transform-origin: 188px 75px;
-  animation: guppy-tail 0.72s ease-in-out infinite alternate;
 }
 
 .guppy-pet-hint {
   position: absolute;
-  right: 5px;
-  top: -11px;
+  right: 4px;
+  top: -12px;
   z-index: 3;
   padding: 4px 8px;
   border: 1px solid var(--border-light);
@@ -1059,23 +1058,6 @@ footer {
 .guppy-pet:hover .guppy-pet-hint {
   color: var(--primary);
   border-color: var(--primary);
-}
-
-.guppy-chat-badge {
-  position: absolute;
-  right: 5px;
-  bottom: 1px;
-  z-index: 4;
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border: 3px solid var(--bg-body);
-  border-radius: 50%;
-  background: var(--primary);
-  color: #fff;
-  box-shadow: 0 7px 18px var(--primary-glow);
-  font-size: 0.75rem;
 }
 
 .guppy-bubbles {
@@ -1380,11 +1362,6 @@ footer {
   75% { transform: rotate(2.2deg) translateX(-2px); }
 }
 
-@keyframes guppy-tail {
-  from { transform: rotate(-3deg) skewY(-1deg); }
-  to { transform: rotate(5deg) skewY(2deg); }
-}
-
 @keyframes guppy-bubble-up {
   0% { transform: translate(0, 0) scale(0.55); opacity: 0; }
   15% { opacity: 0.78; }
@@ -1412,16 +1389,19 @@ footer {
   }
 
   .guppy-pet {
-    width: 116px;
-    height: 76px;
+    width: 138px;
+    height: 143px;
   }
 
   .guppy-fish {
-    width: 145px;
+    width: 138px;
   }
 
   .guppy-pet-hint {
-    display: none;
+    right: 1px;
+    top: -10px;
+    padding: 3px 7px;
+    font-size: 0.61rem;
   }
 
   .guppy-chat {
@@ -1437,7 +1417,6 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .guppy-pet,
   .guppy-fish,
-  .guppy-tail,
   .guppy-bubble,
   .guppy-loading-dots i,
   .guppy-widget[data-state="loading"] .guppy-online-dot {
