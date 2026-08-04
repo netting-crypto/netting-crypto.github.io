@@ -19,14 +19,15 @@
       'projects.bridge.desc': '让飞书消息进入本地 Codex 工作流，完成工作区绑定、线程切换、进度回传和任务延续。',
       'projects.agent.title': '求职 Agent',
       'projects.agent.desc': '围绕职位检索、岗位匹配、材料定制、表单填写和投递记录，构建带人工确认节点的求职执行 Agent。',
-      'about.title': '关于与联系',
+      'about.title': '教育经历与联系',
       'about.kicker': '教育经历',
+      'about.date': '2024 — 2027',
       'about.school': '中国科学技术大学',
       'about.degree': '电子信息硕士 · 预计 2027 年毕业',
       'about.copy': '目前主要关注 AI 产品、Agent 工作流与生命科学计算，希望把模糊问题拆成可以验证、迭代和真正落地的系统。',
-      'about.emailPending': '待补充',
+      'about.emailPending': '邮箱待补充',
       'about.resumeLabel': '简历',
-      'about.resumePending': '待上传'
+      'about.resumePending': '简历待上传'
     },
     en: {
       'nav.projects': 'Projects',
@@ -47,14 +48,15 @@
       'projects.bridge.desc': 'A local-agent bridge that connects Feishu messages with Codex workspaces, threads, progress updates and continuous task execution.',
       'projects.agent.title': 'Job Search Agent',
       'projects.agent.desc': 'A human-in-the-loop agent for job discovery, role matching, application material customization, form completion and application tracking.',
-      'about.title': 'About & Contact',
+      'about.title': 'Education & Contact',
       'about.kicker': 'EDUCATION',
+      'about.date': '2024 — 2027',
       'about.school': 'University of Science and Technology of China',
       'about.degree': "Master's in Electronic Information · Expected 2027",
       'about.copy': 'My current focus spans AI products, agent workflows and computational biology. I enjoy turning ambiguous problems into systems that can be tested, iterated and deployed.',
-      'about.emailPending': 'To be added',
+      'about.emailPending': 'Email coming soon',
       'about.resumeLabel': 'Resume',
-      'about.resumePending': 'Coming soon'
+      'about.resumePending': 'Resume coming soon'
     }
   };
 

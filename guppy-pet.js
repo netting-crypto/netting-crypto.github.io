@@ -40,8 +40,177 @@ const elements = {
   form: document.querySelector('#guppyForm'),
   input: document.querySelector('#guppyInput'),
   send: document.querySelector('#guppySend'),
-  bubbles: document.querySelector('#guppyBubbles')
+  bubbles: document.querySelector('#guppyBubbles'),
+  art: document.querySelector('#guppyArt')
 };
+
+const ART_SOURCE = './assets/cats-fish.svg';
+const ART_WIDTH = 280;
+const ART_HEIGHT = 289;
+
+const LEG_RECTS = [
+  { x: 0, y: 232, width: 40, height: 36, phase: 0 },
+  { x: 48, y: 255, width: 27, height: 34, phase: Math.PI },
+  { x: 86, y: 234, width: 44, height: 36, phase: Math.PI },
+  { x: 140, y: 255, width: 35, height: 30, phase: 0 },
+  { x: 166, y: 224, width: 41, height: 36, phase: 0 },
+  { x: 213, y: 239, width: 33, height: 40, phase: Math.PI }
+];
+
+function removeConnectedPaperBackground(imageData) {
+  const { data, width, height } = imageData;
+  let barrier = new Uint8Array(width * height);
+  const visited = new Uint8Array(width * height);
+  const queue = new Int32Array(width * height);
+  let head = 0;
+  let tail = 0;
+
+  const isPaper = (index) => {
+    const offset = index * 4;
+    const red = data[offset];
+    const green = data[offset + 1];
+    const blue = data[offset + 2];
+    const maximum = Math.max(red, green, blue);
+    const minimum = Math.min(red, green, blue);
+    return red > 218 && green > 218 && blue > 218 && maximum - minimum < 34;
+  };
+
+  for (let index = 0; index < barrier.length; index += 1) {
+    barrier[index] = isPaper(index) ? 0 : 1;
+  }
+
+  // Watercolor pencil outlines contain tiny gaps. Expand the visible outline by
+  // one pixel before the edge flood-fill so white cat bodies and the fish belly
+  // remain enclosed, while the large spaces between the cats stay transparent.
+  const expandedBarrier = barrier.slice();
+  for (let y = 1; y < height - 1; y += 1) {
+    for (let x = 1; x < width - 1; x += 1) {
+      const index = y * width + x;
+      if (barrier[index]) continue;
+
+      for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
+        for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
+          if (barrier[(y + offsetY) * width + x + offsetX]) {
+            expandedBarrier[index] = 1;
+          }
+        }
+      }
+    }
+  }
+  barrier = expandedBarrier;
+
+  const enqueue = (index) => {
+    if (visited[index] || barrier[index]) return;
+    visited[index] = 1;
+    queue[tail++] = index;
+  };
+
+  for (let x = 0; x < width; x += 1) {
+    enqueue(x);
+    enqueue((height - 1) * width + x);
+  }
+  for (let y = 0; y < height; y += 1) {
+    enqueue(y * width);
+    enqueue(y * width + width - 1);
+  }
+
+  while (head < tail) {
+    const index = queue[head++];
+    const x = index % width;
+    const y = Math.floor(index / width);
+    const offset = index * 4;
+    data[offset + 3] = 0;
+
+    if (x > 0) enqueue(index - 1);
+    if (x + 1 < width) enqueue(index + 1);
+    if (y > 0) enqueue(index - width);
+    if (y + 1 < height) enqueue(index + width);
+  }
+
+  return imageData;
+}
+
+function initializeWalkingArt() {
+  const canvas = elements.art;
+  if (!canvas) return;
+
+  const context = canvas.getContext('2d', { alpha: true });
+  if (!context) return;
+
+  const sourceCanvas = document.createElement('canvas');
+  const sourceContext = sourceCanvas.getContext('2d', { willReadFrequently: true });
+  const baseCanvas = document.createElement('canvas');
+  const baseContext = baseCanvas.getContext('2d');
+  const image = new Image();
+
+  sourceCanvas.width = ART_WIDTH;
+  sourceCanvas.height = ART_HEIGHT;
+  baseCanvas.width = ART_WIDTH;
+  baseCanvas.height = ART_HEIGHT;
+  canvas.width = ART_WIDTH;
+  canvas.height = ART_HEIGHT;
+
+  const renderStaticFallback = () => {
+    context.clearRect(0, 0, ART_WIDTH, ART_HEIGHT);
+    context.drawImage(image, 0, 0, ART_WIDTH, ART_HEIGHT);
+  };
+
+  image.addEventListener('load', () => {
+    sourceContext.clearRect(0, 0, ART_WIDTH, ART_HEIGHT);
+    sourceContext.drawImage(image, 0, 0, ART_WIDTH, ART_HEIGHT);
+
+    try {
+      const imageData = sourceContext.getImageData(0, 0, ART_WIDTH, ART_HEIGHT);
+      sourceContext.putImageData(removeConnectedPaperBackground(imageData), 0, 0);
+    } catch (error) {
+      console.warn('[guppy] Could not remove paper background:', error);
+    }
+
+    baseContext.clearRect(0, 0, ART_WIDTH, ART_HEIGHT);
+    baseContext.drawImage(sourceCanvas, 0, 0);
+    LEG_RECTS.forEach(({ x, y, width, height }) => {
+      baseContext.clearRect(x - 1, y - 1, width + 2, height + 2);
+    });
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const draw = (timestamp = 0) => {
+      context.clearRect(0, 0, ART_WIDTH, ART_HEIGHT);
+      context.drawImage(baseCanvas, 0, 0);
+
+      LEG_RECTS.forEach(({ x, y, width, height, phase }) => {
+        const wave = reducedMotion ? 0 : Math.sin((timestamp / 1080) * Math.PI * 2 + phase);
+        const angle = wave * 2.4 * (Math.PI / 180);
+        const lift = reducedMotion ? 0 : Math.max(0, wave) * 1.6;
+        const pivotX = x + width / 2;
+        const pivotY = y + 2;
+
+        context.save();
+        context.translate(pivotX, pivotY - lift);
+        context.rotate(angle);
+        context.drawImage(
+          sourceCanvas,
+          x,
+          y,
+          width,
+          height,
+          -width / 2,
+          -2,
+          width,
+          height
+        );
+        context.restore();
+      });
+
+      if (!reducedMotion) window.requestAnimationFrame(draw);
+    };
+
+    draw();
+  }, { once: true });
+
+  image.addEventListener('error', renderStaticFallback, { once: true });
+  image.src = ART_SOURCE;
+}
 
 function setWidgetState(nextState, message) {
   if (!elements.widget) return;
@@ -440,6 +609,7 @@ function initialize() {
   if (!elements.widget || !elements.toggle || !elements.chat || !elements.form) return;
 
   setWidgetState('idle', '点击后在浏览器中醒来');
+  initializeWalkingArt();
   startBubbles();
 
   elements.toggle.addEventListener('click', () => {

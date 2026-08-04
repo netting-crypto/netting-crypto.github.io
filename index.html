@@ -84,45 +84,39 @@
       </div>
     </section>
 
-    <section id="about" class="section-padding section-panel">
+    <section id="about" class="section-padding">
       <div class="container">
         <h2 data-i18n="about.title">关于与联系</h2>
 
-        <div class="about-card card reveal">
-          <div class="about-main">
-            <span class="about-kicker" data-i18n="about.kicker">EDUCATION</span>
-            <h3 data-i18n="about.school">中国科学技术大学</h3>
-            <p data-i18n="about.degree">电子信息硕士 · 预计 2027 年毕业</p>
-            <p class="about-copy" data-i18n="about.copy">
-              目前主要关注 AI 产品、Agent 工作流与生命科学计算，希望把模糊问题拆成可以验证、迭代和真正落地的系统。
-            </p>
+        <div class="education-block reveal">
+          <div class="timeline-container education-timeline">
+            <article class="timeline-item">
+              <span class="timeline-dot" aria-hidden="true"></span>
+              <span class="timeline-date" data-i18n="about.date">2024 — 2027</span>
+              <div class="timeline-content">
+                <h3 data-i18n="about.school">中国科学技术大学</h3>
+                <p class="timeline-degree" data-i18n="about.degree">电子信息硕士</p>
+                <p data-i18n="about.copy">
+                  目前主要关注 AI 产品、Agent 工作流与生命科学计算，希望把模糊问题拆成可以验证、迭代和真正落地的系统。
+                </p>
+              </div>
+            </article>
           </div>
 
-          <div class="about-contact">
-            <a href="https://github.com/netting-crypto" target="_blank" rel="noopener noreferrer" class="contact-row">
-              <span class="contact-icon"><i class="fab fa-github"></i></span>
-              <span>
-                <small>GitHub</small>
-                <strong>netting-crypto</strong>
-              </span>
-              <i class="fas fa-arrow-up-right-from-square contact-arrow"></i>
+          <div class="education-contact" aria-label="Contact links">
+            <a href="https://github.com/netting-crypto" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github" aria-hidden="true"></i>
+              <span>netting-crypto</span>
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
             </a>
-
-            <div class="contact-row contact-row--disabled">
-              <span class="contact-icon"><i class="fas fa-envelope"></i></span>
-              <span>
-                <small>Email</small>
-                <strong data-i18n="about.emailPending">待补充</strong>
-              </span>
-            </div>
-
-            <div class="contact-row contact-row--disabled">
-              <span class="contact-icon"><i class="fas fa-file-lines"></i></span>
-              <span>
-                <small data-i18n="about.resumeLabel">简历</small>
-                <strong data-i18n="about.resumePending">待上传</strong>
-              </span>
-            </div>
+            <span class="education-contact-pending">
+              <i class="fas fa-envelope" aria-hidden="true"></i>
+              <span data-i18n="about.emailPending">邮箱待补充</span>
+            </span>
+            <span class="education-contact-pending">
+              <i class="fas fa-file-lines" aria-hidden="true"></i>
+              <span data-i18n="about.resumePending">简历待上传</span>
+            </span>
           </div>
         </div>
       </div>
@@ -183,12 +177,15 @@
     <div class="guppy-bubbles" id="guppyBubbles" aria-hidden="true"></div>
 
     <button class="guppy-pet" id="guppyToggle" type="button" aria-label="和小鱼聊天" aria-expanded="false">
-      <span class="guppy-pet-hint">Talk to fish</span>
-      <img
+      <span class="guppy-pet-hint" aria-hidden="true">&gt; talk_to_fish_</span>
+      <canvas
         class="guppy-fish"
-        src="./assets/cats-fish.svg"
-        alt="三只水彩猫一起举着一条蓝绿色的大鱼"
-      />
+        id="guppyArt"
+        width="280"
+        height="289"
+        role="img"
+        aria-label="三只水彩猫举着一条蓝绿色的大鱼原地踏步"
+      ></canvas>
     </button>
   </aside>
 
