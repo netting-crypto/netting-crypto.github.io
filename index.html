@@ -1,182 +1,136 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="骆昕 / Luo Xin — AI Product, Agent and Computational Biology." />
-  <meta name="color-scheme" content="dark light" />
-  <title>骆昕 / Luo Xin</title>
+  <meta name="description" content="Luo Xin — AI Product, Agent and Computational Biology." />
+  <title>Luo Xin's database</title>
   <script>
-    (() => {
-      const savedTheme = localStorage.getItem("theme");
-      const preferredTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-      document.documentElement.dataset.theme = savedTheme || preferredTheme;
-    })();
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   </script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-  <div class="page-noise" aria-hidden="true"></div>
-  <div class="ambient ambient-one" aria-hidden="true"></div>
-  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <nav>
+    <div class="container nav-container">
+      <a class="logo" href="#intro" aria-label="Luo Xin's database">
+        <span class="logo-terminal" aria-hidden="true">
+          <span class="terminal-user">luoxin@db</span><span class="terminal-path">:~</span><span class="terminal-symbol">$</span><span class="terminal-cursor"></span>
+        </span>
+      </a>
 
-  <header class="site-header">
-    <a class="site-logo" href="#home" aria-label="返回首页">
-      <span class="terminal-name">luoxin@workbench</span><span class="terminal-path">:~</span><span class="terminal-symbol">$</span><span class="terminal-cursor" aria-hidden="true"></span>
-    </a>
+      <div class="nav-actions">
+        <div class="nav-links">
+          <a href="#projects" data-i18n="nav.projects">Projects</a>
+          <a href="#about" data-i18n="nav.about">About</a>
+        </div>
 
-    <nav class="site-nav" aria-label="主导航">
-      <a href="#projects" data-i18n="navProjects">Projects</a>
-      <a href="#about" data-i18n="navAbout">About</a>
-    </nav>
-
-    <div class="header-actions">
-      <button class="text-control" id="languageToggle" type="button" aria-label="切换语言">EN</button>
-      <button class="icon-control" id="themeToggle" type="button" aria-label="切换明暗主题">
-        <span class="theme-sun" aria-hidden="true">☼</span>
-        <span class="theme-moon" aria-hidden="true">☾</span>
-      </button>
+        <div class="nav-controls">
+          <button class="control-btn lang-toggle" type="button" aria-label="Toggle language">English</button>
+          <button class="control-btn theme-toggle" type="button" aria-label="Toggle theme">
+            <i class="fas fa-sun sun-icon"></i>
+            <i class="fas fa-moon moon-icon"></i>
+          </button>
+        </div>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <main>
-    <section class="hero section-shell" id="home">
-      <div class="hero-copy reveal">
-        <div class="availability">
-          <span class="availability-dot" aria-hidden="true"></span>
-          <span data-i18n="availability">OPEN TO AI PRODUCT OPPORTUNITIES · 2027</span>
+    <section id="intro" class="intro">
+      <div class="bg-decoration" aria-hidden="true"></div>
+      <div class="container flex-center column">
+        <div class="avatar-container">
+          <img
+            src="https://avatars.githubusercontent.com/u/101103505?v=4"
+            alt="Luo Xin"
+            class="avatar"
+            referrerpolicy="no-referrer"
+          />
+          <div class="avatar-glow" aria-hidden="true"></div>
         </div>
 
-        <p class="hero-kicker">AI PRODUCT · AGENT · COMPUTATIONAL BIOLOGY</p>
-        <h1>
-          <span data-i18n="hello">你好，我是</span>
-          <strong>骆昕 <em>/ Luo Xin</em></strong>
-        </h1>
-        <p class="hero-intro" data-i18n="heroIntro">
-          我把模糊的问题拆成可执行、可验证、可持续迭代的 AI 系统。
+        <h1 class="gradient-text" data-i18n="intro.title">你好，我是骆昕</h1>
+        <p class="subtitle" data-i18n="intro.desc">
+          AI Product / Agent / Computational Biology
         </p>
-        <p class="hero-detail" data-i18n="heroDetail">
-          关注 AI 应用落地、Agent 工作流，以及生命科学中的多证据融合。
+        <p class="intro-note" data-i18n="intro.note">
+          我关注 AI 应用落地，也在尝试把产品方法与生命科学计算结合起来。
         </p>
 
-        <div class="hero-actions">
-          <a class="button button-primary" href="#projects">
-            <span data-i18n="viewWork">查看项目</span>
-            <span aria-hidden="true">↘</span>
+        <div class="intro-contact-links" aria-label="Primary links">
+          <a class="intro-contact-link" href="https://github.com/netting-crypto" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+            <span>GitHub</span>
           </a>
-          <a class="button" href="https://github.com/netting-crypto" target="_blank" rel="noreferrer">
-            GitHub <span aria-hidden="true">↗</span>
-          </a>
-          <span class="button button-muted" aria-disabled="true" title="简历文件尚未上传">
-            <span data-i18n="resumeSoon">简历 · 待上传</span>
+          <span class="intro-contact-link intro-contact-link--muted" aria-disabled="true">
+            <i class="fas fa-file-lines"></i>
+            <span data-i18n="intro.resume">简历准备中</span>
+          </span>
+          <span class="intro-contact-link intro-contact-link--status">
+            <i class="fas fa-circle"></i>
+            <span data-i18n="intro.status">正在寻找 AI 产品机会</span>
           </span>
         </div>
-
-        <div class="hero-meta" aria-label="当前信息">
-          <div>
-            <span class="meta-label" data-i18n="basedAtLabel">BASED AT</span>
-            <strong data-i18n="basedAt">中国科学技术大学</strong>
-          </div>
-          <div>
-            <span class="meta-label" data-i18n="currentLabel">CURRENT</span>
-            <strong data-i18n="current">构建个人 AI 工具与研究软件</strong>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-visual reveal" aria-label="个人研究工作台图形">
-        <div class="signal-card">
-          <div class="signal-topline">
-            <span>PROFILE SIGNAL</span>
-            <span class="signal-live"><i></i> LIVE</span>
-          </div>
-          <div class="signal-orbit" aria-hidden="true">
-            <div class="orbit orbit-a"></div>
-            <div class="orbit orbit-b"></div>
-            <div class="orbit orbit-c"></div>
-            <div class="orbit-axis axis-x"></div>
-            <div class="orbit-axis axis-y"></div>
-            <div class="orbit-core">
-              <span>LX</span>
-              <small>00 / 01</small>
-            </div>
-            <span class="orbit-node node-one"></span>
-            <span class="orbit-node node-two"></span>
-            <span class="orbit-node node-three"></span>
-          </div>
-          <div class="signal-console">
-            <p><span>focus_01</span><strong>AI PRODUCT SYSTEMS</strong></p>
-            <p><span>focus_02</span><strong>AGENT WORKFLOW</strong></p>
-            <p><span>focus_03</span><strong>MULTI-OMICS</strong></p>
-          </div>
-        </div>
       </div>
     </section>
 
-    <section class="projects section-shell section-block" id="projects">
-      <div class="section-heading reveal">
-        <div>
-          <span class="section-index">01</span>
-          <p class="section-label">INDEPENDENT PROJECTS</p>
-        </div>
-        <div class="section-heading-copy">
-          <h2 data-i18n="projectsTitle">正在推进的独立项目</h2>
-          <p data-i18n="projectsIntro">围绕研究解释、个人信息管理和 Agent 执行构建的长期项目。</p>
-        </div>
+    <section id="projects" class="section-padding">
+      <div class="container">
+        <h2 data-i18n="projects.title">独立项目</h2>
+        <div class="projects-grid"></div>
       </div>
-
-      <div class="project-list" id="projectList" aria-live="polite"></div>
     </section>
 
-    <section class="about section-shell section-block" id="about">
-      <div class="section-heading reveal">
-        <div>
-          <span class="section-index">02</span>
-          <p class="section-label">ABOUT & CONTACT</p>
-        </div>
-        <div class="section-heading-copy">
-          <h2 data-i18n="aboutTitle">背景与联系</h2>
-          <p data-i18n="aboutIntro">我的教育背景，以及目前可以公开的联系入口。</p>
-        </div>
-      </div>
+    <section id="about" class="section-padding section-panel">
+      <div class="container">
+        <h2 data-i18n="about.title">关于与联系</h2>
 
-      <div class="about-layout">
-        <article class="about-card reveal">
-          <p class="card-eyebrow">EDUCATION</p>
-          <div class="education-row">
-            <div class="education-time" data-i18n="educationTime">在读 · 预计 2027 年毕业</div>
-            <div>
-              <h3 data-i18n="school">中国科学技术大学</h3>
-              <p data-i18n="degree">电子信息专业 · 硕士</p>
-              <p class="education-detail" data-i18n="educationDetail">
-                研究关注遗传病解释、WES 与单细胞多组学证据融合，同时持续探索 AI 产品与 Agent 的真实应用。
-              </p>
-            </div>
+        <div class="about-card card reveal">
+          <div class="about-main">
+            <span class="about-kicker" data-i18n="about.kicker">EDUCATION</span>
+            <h3 data-i18n="about.school">中国科学技术大学</h3>
+            <p data-i18n="about.degree">电子信息硕士 · 预计 2027 年毕业</p>
+            <p class="about-copy" data-i18n="about.copy">
+              目前主要关注 AI 产品、Agent 工作流与生命科学计算，希望把模糊问题拆成可以验证、迭代和真正落地的系统。
+            </p>
           </div>
-        </article>
 
-        <aside class="contact-card reveal">
-          <p class="card-eyebrow">CONTACT</p>
-          <h3 data-i18n="contactTitle">让想法进入下一步</h3>
-          <p data-i18n="contactDesc">目前优先通过 GitHub 展示项目；简历与邮箱入口将在内容确认后补充。</p>
-          <div class="contact-links">
-            <a href="https://github.com/netting-crypto" target="_blank" rel="noreferrer">
-              <span>GitHub</span>
-              <strong>@netting-crypto ↗</strong>
+          <div class="about-contact">
+            <a href="https://github.com/netting-crypto" target="_blank" rel="noopener noreferrer" class="contact-row">
+              <span class="contact-icon"><i class="fab fa-github"></i></span>
+              <span>
+                <small>GitHub</small>
+                <strong>netting-crypto</strong>
+              </span>
+              <i class="fas fa-arrow-up-right-from-square contact-arrow"></i>
             </a>
-            <div class="contact-placeholder">
-              <span>Resume</span>
-              <strong data-i18n="preparing">Preparing</strong>
+
+            <div class="contact-row contact-row--disabled">
+              <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+              <span>
+                <small>Email</small>
+                <strong data-i18n="about.emailPending">待补充</strong>
+              </span>
+            </div>
+
+            <div class="contact-row contact-row--disabled">
+              <span class="contact-icon"><i class="fas fa-file-lines"></i></span>
+              <span>
+                <small data-i18n="about.resumeLabel">简历</small>
+                <strong data-i18n="about.resumePending">待上传</strong>
+              </span>
             </div>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer section-shell">
-    <span>© 2026 LUO XIN</span>
-    <span data-i18n="footer">Designed as a personal research workbench.</span>
+  <footer>
+    <p>© 2026 Luo Xin · Built for the web.</p>
   </footer>
 
   <script src="./app.js"></script>
