@@ -979,3 +979,468 @@ footer {
     animation: none;
   }
 }
+
+/* =========================================
+   GuppyLM fish pet
+   ========================================= */
+.guppy-widget {
+  position: fixed;
+  right: 22px;
+  bottom: 20px;
+  z-index: 1300;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.guppy-pet,
+.guppy-chat {
+  pointer-events: auto;
+}
+
+.guppy-pet {
+  position: relative;
+  width: 136px;
+  height: 88px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  isolation: isolate;
+  animation: guppy-float 3.4s ease-in-out infinite;
+  transition: transform var(--duration-fast) var(--ease-standard), filter var(--duration-fast) var(--ease-standard);
+}
+
+.guppy-pet:hover {
+  filter: saturate(1.08);
+}
+
+.guppy-pet:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 5px;
+  border-radius: 48%;
+}
+
+.guppy-fish {
+  position: absolute;
+  inset: -18px -22px -20px -12px;
+  width: 168px;
+  height: auto;
+  overflow: visible;
+  transform-origin: 52% 55%;
+  animation: guppy-swim 2.8s ease-in-out infinite;
+}
+
+.guppy-tail {
+  transform-origin: 188px 75px;
+  animation: guppy-tail 0.72s ease-in-out infinite alternate;
+}
+
+.guppy-pet-hint {
+  position: absolute;
+  right: 5px;
+  top: -11px;
+  z-index: 3;
+  padding: 4px 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-editor) 92%, transparent);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.67rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), opacity var(--duration-fast) var(--ease-standard);
+}
+
+.guppy-pet:hover .guppy-pet-hint {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.guppy-chat-badge {
+  position: absolute;
+  right: 5px;
+  bottom: 1px;
+  z-index: 4;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--bg-body);
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 7px 18px var(--primary-glow);
+  font-size: 0.75rem;
+}
+
+.guppy-bubbles {
+  position: absolute;
+  right: 88px;
+  bottom: 40px;
+  width: 100px;
+  height: 140px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.guppy-bubble {
+  --bubble-drift: 14px;
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid color-mix(in srgb, var(--primary) 38%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.96), rgba(125, 215, 239, 0.3) 55%, transparent 72%);
+  opacity: 0;
+  animation: guppy-bubble-up 2.5s linear forwards;
+}
+
+.guppy-chat {
+  width: min(364px, calc(100vw - 28px));
+  max-height: min(560px, calc(100vh - 130px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg-editor) 94%, transparent);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transform-origin: calc(100% - 54px) 100%;
+  animation: guppy-chat-open 260ms var(--ease-emphasis) both;
+}
+
+.guppy-chat[hidden] {
+  display: none;
+}
+
+.guppy-chat-header {
+  min-height: 62px;
+  padding: 12px 13px 11px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid var(--border-light);
+  background: color-mix(in srgb, var(--bg-panel) 88%, transparent);
+}
+
+.guppy-heading {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guppy-heading strong,
+.guppy-heading span {
+  display: block;
+}
+
+.guppy-heading strong {
+  color: var(--text-main);
+  font-size: 0.94rem;
+  line-height: 1.25;
+}
+
+.guppy-heading div > span {
+  max-width: 250px;
+  margin-top: 3px;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.guppy-online-dot {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #62c991;
+  box-shadow: 0 0 0 4px rgba(98, 201, 145, 0.13);
+}
+
+.guppy-widget[data-state="loading"] .guppy-online-dot {
+  background: #d9a441;
+  box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.13);
+  animation: guppy-status-pulse 1.1s ease-in-out infinite;
+}
+
+.guppy-widget[data-state="error"] .guppy-online-dot {
+  background: #d56565;
+  box-shadow: 0 0 0 4px rgba(213, 101, 101, 0.13);
+}
+
+.guppy-icon-button {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  background: var(--bg-toolbar);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+}
+
+.guppy-icon-button:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--bg-active);
+}
+
+.guppy-messages {
+  min-height: 205px;
+  max-height: 330px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.guppy-message {
+  max-width: 87%;
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.guppy-message p {
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.guppy-message-name {
+  display: block;
+  margin: 0 5px 4px;
+  color: var(--text-subtle);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.67rem;
+}
+
+.guppy-message--fish {
+  align-self: flex-start;
+}
+
+.guppy-message--fish p {
+  border: 1px solid var(--border-light);
+  border-bottom-left-radius: 3px;
+  background: var(--bg-panel);
+  color: var(--text-main);
+}
+
+.guppy-message--user {
+  align-self: flex-end;
+}
+
+.guppy-message--user .guppy-message-name {
+  text-align: right;
+}
+
+.guppy-message--user p {
+  border: 1px solid var(--primary);
+  border-bottom-right-radius: 3px;
+  background: var(--primary);
+  color: #fff;
+}
+
+.guppy-loading-note {
+  min-height: 38px;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-top: 1px solid var(--border-light);
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.guppy-loading-note[hidden] {
+  display: none;
+}
+
+.guppy-loading-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.guppy-loading-dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: guppy-dot 0.9s ease-in-out infinite;
+}
+
+.guppy-loading-dots i:nth-child(2) { animation-delay: 0.13s; }
+.guppy-loading-dots i:nth-child(3) { animation-delay: 0.26s; }
+
+.guppy-form {
+  padding: 11px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  gap: 8px;
+  border-top: 1px solid var(--border-light);
+  background: color-mix(in srgb, var(--bg-panel) 82%, transparent);
+}
+
+.guppy-form input {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  background: var(--bg-editor);
+  color: var(--text-main);
+  font: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.guppy-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.guppy-form input::placeholder {
+  color: var(--text-subtle);
+}
+
+.guppy-form button {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+}
+
+.guppy-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--primary-hover);
+}
+
+.guppy-form button:disabled,
+.guppy-form input:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.guppy-credit {
+  min-height: 31px;
+  padding: 7px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--border-light);
+  color: var(--text-subtle);
+  font-size: 0.67rem;
+}
+
+.guppy-credit a {
+  color: var(--text-muted);
+}
+
+.guppy-credit a:hover {
+  color: var(--primary);
+}
+
+@keyframes guppy-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes guppy-swim {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  25% { transform: rotate(-2.2deg) translateX(2px); }
+  75% { transform: rotate(2.2deg) translateX(-2px); }
+}
+
+@keyframes guppy-tail {
+  from { transform: rotate(-3deg) skewY(-1deg); }
+  to { transform: rotate(5deg) skewY(2deg); }
+}
+
+@keyframes guppy-bubble-up {
+  0% { transform: translate(0, 0) scale(0.55); opacity: 0; }
+  15% { opacity: 0.78; }
+  100% { transform: translate(var(--bubble-drift), -98px) scale(1.15); opacity: 0; }
+}
+
+@keyframes guppy-chat-open {
+  from { transform: translateY(10px) scale(0.96); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes guppy-status-pulse {
+  50% { opacity: 0.45; }
+}
+
+@keyframes guppy-dot {
+  0%, 100% { transform: translateY(0); opacity: 0.45; }
+  50% { transform: translateY(-3px); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .guppy-widget {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .guppy-pet {
+    width: 116px;
+    height: 76px;
+  }
+
+  .guppy-fish {
+    width: 145px;
+  }
+
+  .guppy-pet-hint {
+    display: none;
+  }
+
+  .guppy-chat {
+    max-height: calc(100vh - 105px);
+  }
+
+  .guppy-messages {
+    min-height: 180px;
+    max-height: min(310px, calc(100vh - 290px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guppy-pet,
+  .guppy-fish,
+  .guppy-tail,
+  .guppy-bubble,
+  .guppy-loading-dots i,
+  .guppy-widget[data-state="loading"] .guppy-online-dot {
+    animation: none !important;
+  }
+}

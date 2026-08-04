@@ -133,6 +133,98 @@
     <p>© 2026 Luo Xin · Built for the web.</p>
   </footer>
 
+  <aside class="guppy-widget" id="guppyWidget" aria-label="Guppy fish chat">
+    <section class="guppy-chat" id="guppyChat" hidden aria-labelledby="guppyTitle">
+      <header class="guppy-chat-header">
+        <div class="guppy-heading">
+          <span class="guppy-online-dot" aria-hidden="true"></span>
+          <div>
+            <strong id="guppyTitle">一条小鱼</strong>
+            <span id="guppyStatus">点击后在浏览器中醒来</span>
+          </div>
+        </div>
+        <button class="guppy-icon-button" id="guppyClose" type="button" aria-label="关闭小鱼聊天">
+          <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+
+      <div class="guppy-messages" id="guppyMessages" aria-live="polite">
+        <div class="guppy-message guppy-message--fish">
+          <span class="guppy-message-name">fish</span>
+          <p>blub... 你好。我住在这个主页的右下角。</p>
+        </div>
+      </div>
+
+      <div class="guppy-loading-note" id="guppyLoadingNote" hidden>
+        <span class="guppy-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span id="guppyLoadingText">正在加载约 10 MB 的小鱼脑袋…</span>
+      </div>
+
+      <form class="guppy-form" id="guppyForm">
+        <input
+          id="guppyInput"
+          type="text"
+          maxlength="220"
+          placeholder="和小鱼说点什么…"
+          autocomplete="off"
+          aria-label="发送给小鱼的消息"
+        />
+        <button id="guppySend" type="submit" aria-label="发送消息">
+          <i class="fas fa-arrow-up" aria-hidden="true"></i>
+        </button>
+      </form>
+
+      <footer class="guppy-credit">
+        <span>本地运行，不上传对话</span>
+        <a href="https://github.com/arman-bd/guppylm" target="_blank" rel="noopener noreferrer">GuppyLM ↗</a>
+      </footer>
+    </section>
+
+    <div class="guppy-bubbles" id="guppyBubbles" aria-hidden="true"></div>
+
+    <button class="guppy-pet" id="guppyToggle" type="button" aria-label="和小鱼聊天" aria-expanded="false">
+      <span class="guppy-pet-hint">talk to fish</span>
+      <svg class="guppy-fish" viewBox="0 0 250 150" role="img" aria-label="蓝色水彩小鱼">
+        <defs>
+          <linearGradient id="fishBodyGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#dffbff" />
+            <stop offset="0.48" stop-color="#79dbea" />
+            <stop offset="1" stop-color="#46b8d2" />
+          </linearGradient>
+          <linearGradient id="fishFinGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e9fff5" />
+            <stop offset="1" stop-color="#b7e7b7" />
+          </linearGradient>
+          <filter id="fishShadow" x="-30%" y="-30%" width="160%" height="180%">
+            <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#1c6e87" flood-opacity="0.22" />
+          </filter>
+        </defs>
+
+        <g filter="url(#fishShadow)">
+          <path class="guppy-tail" d="M190 66 C218 39 240 43 229 72 C240 103 215 111 188 82 Z" fill="url(#fishFinGradient)" stroke="#819b9a" stroke-width="2.1" stroke-linejoin="round" />
+          <path d="M118 26 C130 8 149 10 151 35 C138 31 126 32 118 26 Z" fill="url(#fishFinGradient)" stroke="#819b9a" stroke-width="2" />
+          <path d="M116 79 C128 64 141 67 138 86 C128 89 120 87 116 79 Z" fill="url(#fishFinGradient)" stroke="#819b9a" stroke-width="2" />
+          <path class="guppy-body" d="M28 77 C42 38 96 24 157 36 C180 41 194 54 198 70 C194 90 177 104 151 110 C91 122 42 109 28 77 Z" fill="url(#fishBodyGradient)" stroke="#7b9496" stroke-width="2.5" stroke-linejoin="round" />
+
+          <path d="M79 37 C87 45 86 57 80 65" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.72" />
+          <path d="M103 31 C111 40 110 54 104 63" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.65" />
+          <path d="M128 34 C135 42 135 54 130 64" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.72" />
+          <path d="M153 41 C159 49 158 59 154 67" fill="none" stroke="#0ca9ca" stroke-width="7" stroke-linecap="round" opacity="0.56" />
+
+          <ellipse cx="61" cy="88" rx="9" ry="6" fill="#f2b7b1" opacity="0.62" />
+          <circle cx="51" cy="62" r="9" fill="#fff" stroke="#66787b" stroke-width="2.2" />
+          <circle cx="52" cy="63" r="3.4" fill="#263338" />
+          <circle cx="53" cy="61.5" r="1" fill="#fff" />
+          <path d="M27 80 C17 81 17 89 27 90" fill="none" stroke="#c97e7e" stroke-width="2.3" stroke-linecap="round" />
+          <path d="M27 85 C33 85 37 88 42 90" fill="none" stroke="#c97e7e" stroke-width="2.3" stroke-linecap="round" />
+          <path d="M72 52 C67 70 69 88 78 101" fill="none" stroke="#a9c9ca" stroke-width="2.4" stroke-linecap="round" opacity="0.9" />
+        </g>
+      </svg>
+      <span class="guppy-chat-badge" aria-hidden="true"><i class="fas fa-comment-dots"></i></span>
+    </button>
+  </aside>
+
   <script src="./app.js"></script>
+  <script type="module" src="./guppy-pet.js"></script>
 </body>
 </html>
