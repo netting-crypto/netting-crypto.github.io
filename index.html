@@ -3,330 +3,181 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Luo Xin — AI Product, Agent Workflow and Computational Biology." />
-  <title>Luo Xin / Pixel Profile</title>
+  <meta name="description" content="骆昕 / Luo Xin — AI Product, Agent and Computational Biology." />
+  <meta name="color-scheme" content="dark light" />
+  <title>骆昕 / Luo Xin</title>
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+      const preferredTheme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = savedTheme || preferredTheme;
+    })();
+  </script>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
+  <div class="page-noise" aria-hidden="true"></div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
 
-  <header class="topbar">
-    <a class="brand" href="#home" aria-label="Back to top">
-      <span class="brand-mark" aria-hidden="true">
-        <i></i><i></i><i></i><i></i>
-      </span>
-      <span>NETTING.OS</span>
+  <header class="site-header">
+    <a class="site-logo" href="#home" aria-label="返回首页">
+      <span class="terminal-name">luoxin@workbench</span><span class="terminal-path">:~</span><span class="terminal-symbol">$</span><span class="terminal-cursor" aria-hidden="true"></span>
     </a>
 
-    <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="#about" data-i18n="nav_about">关于</a>
-      <a href="#projects" data-i18n="nav_projects">项目</a>
-      <a href="#focus" data-i18n="nav_focus">方向</a>
-      <a href="#contact" data-i18n="nav_contact">联系</a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="#projects" data-i18n="navProjects">Projects</a>
+      <a href="#about" data-i18n="navAbout">About</a>
     </nav>
 
-    <div class="top-actions">
-      <button class="pixel-button compact" id="langToggle" type="button" aria-label="Switch language">EN</button>
-      <button class="pixel-button compact" id="themeToggle" type="button" aria-label="Switch theme">
-        <span class="theme-icon" aria-hidden="true">☾</span>
+    <div class="header-actions">
+      <button class="text-control" id="languageToggle" type="button" aria-label="切换语言">EN</button>
+      <button class="icon-control" id="themeToggle" type="button" aria-label="切换明暗主题">
+        <span class="theme-sun" aria-hidden="true">☼</span>
+        <span class="theme-moon" aria-hidden="true">☾</span>
       </button>
     </div>
   </header>
 
-  <main id="home">
-    <section class="hero shell">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="status-dot"></span><span data-i18n="hero_status">正在构建一些真正能工作的 AI 产品</span></p>
+  <main>
+    <section class="hero section-shell" id="home">
+      <div class="hero-copy reveal">
+        <div class="availability">
+          <span class="availability-dot" aria-hidden="true"></span>
+          <span data-i18n="availability">OPEN TO AI PRODUCT OPPORTUNITIES · 2027</span>
+        </div>
+
+        <p class="hero-kicker">AI PRODUCT · AGENT · COMPUTATIONAL BIOLOGY</p>
         <h1>
-          <span data-i18n="hero_hello">你好，我是</span>
-          <strong>骆昕 / Luo Xin</strong>
+          <span data-i18n="hello">你好，我是</span>
+          <strong>骆昕 <em>/ Luo Xin</em></strong>
         </h1>
-        <p class="hero-lead" data-i18n="hero_lead">
-          我关注 AI 产品、Agent 工作流与生命科学计算。喜欢把模糊的问题拆成可以执行、验证和持续迭代的系统。
+        <p class="hero-intro" data-i18n="heroIntro">
+          我把模糊的问题拆成可执行、可验证、可持续迭代的 AI 系统。
+        </p>
+        <p class="hero-detail" data-i18n="heroDetail">
+          关注 AI 应用落地、Agent 工作流，以及生命科学中的多证据融合。
         </p>
 
         <div class="hero-actions">
-          <a class="pixel-button primary" href="#projects">
-            <span data-i18n="see_projects">查看项目</span>
-            <span aria-hidden="true">→</span>
+          <a class="button button-primary" href="#projects">
+            <span data-i18n="viewWork">查看项目</span>
+            <span aria-hidden="true">↘</span>
           </a>
-          <a class="pixel-button" href="https://github.com/netting-crypto" target="_blank" rel="noreferrer">
-            GitHub
-            <span aria-hidden="true">↗</span>
+          <a class="button" href="https://github.com/netting-crypto" target="_blank" rel="noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
           </a>
+          <span class="button button-muted" aria-disabled="true" title="简历文件尚未上传">
+            <span data-i18n="resumeSoon">简历 · 待上传</span>
+          </span>
         </div>
 
-        <div class="signal-row" aria-label="Current focus">
-          <span>AI PRODUCT</span>
-          <span>AGENT</span>
-          <span>COMPUTATIONAL BIOLOGY</span>
-          <span>VIBE CODING</span>
-        </div>
-      </div>
-
-      <div class="hero-terminal pixel-window">
-        <div class="window-titlebar">
-          <span>profile.exe</span>
-          <div class="window-controls" aria-hidden="true">
-            <i></i><i></i><i></i>
-          </div>
-        </div>
-        <div class="terminal-body">
-          <div class="avatar-grid" aria-label="Pixel avatar">
-            <span class="hair"></span><span class="hair"></span><span class="hair"></span><span class="hair"></span><span></span><span></span><span></span><span></span>
-            <span class="hair"></span><span class="skin"></span><span class="skin"></span><span class="hair"></span><span></span><span></span><span></span><span></span>
-            <span class="hair"></span><span class="eye"></span><span class="eye"></span><span class="hair"></span><span></span><span></span><span></span><span></span>
-            <span class="hair"></span><span class="skin"></span><span class="skin"></span><span class="hair"></span><span></span><span></span><span></span><span></span>
-            <span></span><span class="coat"></span><span class="coat"></span><span></span><span></span><span></span><span></span><span></span>
-            <span class="coat"></span><span class="coat"></span><span class="coat"></span><span class="coat"></span><span></span><span></span><span></span><span></span>
-            <span class="coat"></span><span class="accent"></span><span class="accent"></span><span class="coat"></span><span></span><span></span><span></span><span></span>
-            <span></span><span class="shoe"></span><span class="shoe"></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-
-          <div class="terminal-lines">
-            <p><span class="prompt">guest@netting:~$</span> whoami</p>
-            <p class="output">AI Product Builder</p>
-            <p><span class="prompt">guest@netting:~$</span> current_focus</p>
-            <p class="output">agent workflow / multi-omics / personal AI</p>
-            <p><span class="prompt">guest@netting:~$</span> status</p>
-            <p class="output success">shipping, learning, iterating_</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="shell section" id="about">
-      <div class="section-heading">
-        <span class="section-index">01</span>
-        <div>
-          <p class="eyebrow" data-i18n="about_eyebrow">WHO I AM</p>
-          <h2 data-i18n="about_title">从对话，到功能承接，再到完整闭环</h2>
-        </div>
-      </div>
-
-      <div class="about-grid">
-        <article class="pixel-window text-window">
-          <div class="window-titlebar">
-            <span>about.md</span>
-            <div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
-          </div>
-          <div class="window-content">
-            <p data-i18n="about_p1">
-              我是中国科学技术大学电子信息专业硕士，过去几段经历主要围绕 AI 应用落地展开。
-            </p>
-            <p data-i18n="about_p2">
-              我关心的不只是模型能不能回答，而是它如何理解状态、承接下一步功能、调用工具，并在真实反馈中持续变好。
-            </p>
-            <p data-i18n="about_p3">
-              现在，我正在把产品经验与生命科学背景结合，做更完整的 AI 工具与 Agent。
-            </p>
-          </div>
-        </article>
-
-        <div class="stat-stack">
-          <div class="stat-card">
-            <span class="stat-value">AI × BIO</span>
-            <span class="stat-label" data-i18n="stat_1">跨领域产品方向</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">0 → 1</span>
-            <span class="stat-label" data-i18n="stat_2">从模糊想法到可运行原型</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">LOOP</span>
-            <span class="stat-label" data-i18n="stat_3">强调反馈、评测与迭代闭环</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="shell section" id="projects">
-      <div class="section-heading">
-        <span class="section-index">02</span>
-        <div>
-          <p class="eyebrow" data-i18n="projects_eyebrow">SELECTED QUESTS</p>
-          <h2 data-i18n="projects_title">正在推进的四条项目线</h2>
-        </div>
-      </div>
-
-      <div class="project-grid">
-        <article class="project-card featured">
-          <div class="project-topline">
-            <span class="project-no">QUEST 01</span>
-            <span class="project-status live" data-i18n="status_building">BUILDING</span>
-          </div>
-          <div class="project-icon genome" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <h3 data-i18n="project1_title">WES + 单细胞多组学软件</h3>
-          <p data-i18n="project1_desc">
-            面向遗传病候选解释的多证据融合工具。把 WES、单细胞表达、疾病模型与网络证据整合为可追溯的优先级结果与交互式报告。
-          </p>
-          <div class="tag-list">
-            <span>WES</span><span>scRNA-seq</span><span>Evidence Ranking</span><span>Python</span>
-          </div>
-          <div class="project-footer">
-            <a href="https://github.com/netting-crypto/wes" target="_blank" rel="noreferrer" data-i18n="view_repo">查看仓库 ↗</a>
-            <span>01 / 04</span>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-topline">
-            <span class="project-no">QUEST 02</span>
-            <span class="project-status live" data-i18n="status_building">BUILDING</span>
-          </div>
-          <div class="project-icon bridge" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <h3 data-i18n="project2_title">飞书 × Codex 桥接</h3>
-          <p data-i18n="project2_desc">
-            让飞书消息进入本地 Codex Desktop 工作流，完成工作区绑定、线程切换、进度回传与任务延续。
-          </p>
-          <div class="tag-list">
-            <span>Feishu</span><span>Codex</span><span>Local Agent</span><span>Node.js</span>
-          </div>
-          <div class="project-footer">
-            <a href="https://github.com/netting-crypto/feishu-codex-bridge" target="_blank" rel="noreferrer" data-i18n="view_repo">查看仓库 ↗</a>
-            <span>02 / 04</span>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-topline">
-            <span class="project-no">QUEST 03</span>
-            <span class="project-status planned" data-i18n="status_designing">DESIGNING</span>
-          </div>
-          <div class="project-icon archive" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <h3 data-i18n="project3_title">ChatGPT 历史对话考古</h3>
-          <p data-i18n="project3_desc">
-            从长期对话中识别重复模式、情绪片段、项目脉络与未被继续的想法，生成可浏览的个人时间线与项目地图。
-          </p>
-          <div class="tag-list">
-            <span>Conversation Mining</span><span>Clustering</span><span>Timeline</span><span>Chrome Extension</span>
-          </div>
-          <div class="project-footer">
-            <span data-i18n="coming_soon">即将公开</span>
-            <span>03 / 04</span>
-          </div>
-        </article>
-
-        <article class="project-card">
-          <div class="project-topline">
-            <span class="project-no">QUEST 04</span>
-            <span class="project-status planned" data-i18n="status_designing">DESIGNING</span>
-          </div>
-          <div class="project-icon agent" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <h3 data-i18n="project4_title">批量投递 Agent</h3>
-          <p data-i18n="project4_desc">
-            从职位检索、岗位匹配、材料定制到表单填写与投递记录，构建带人工确认节点的求职执行 Agent。
-          </p>
-          <div class="tag-list">
-            <span>Job Search</span><span>Browser Agent</span><span>Human-in-the-loop</span><span>Automation</span>
-          </div>
-          <div class="project-footer">
-            <span data-i18n="coming_soon">即将公开</span>
-            <span>04 / 04</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="shell section" id="focus">
-      <div class="section-heading">
-        <span class="section-index">03</span>
-        <div>
-          <p class="eyebrow" data-i18n="focus_eyebrow">HOW I BUILD</p>
-          <h2 data-i18n="focus_title">我更在意完整链路，而不是孤立功能</h2>
-        </div>
-      </div>
-
-      <div class="workflow">
-        <div class="workflow-node">
-          <span>01</span>
-          <h3 data-i18n="flow1_title">识别真实问题</h3>
-          <p data-i18n="flow1_desc">从用户行为、业务约束和失败案例中找到真正需要解决的状态。</p>
-        </div>
-        <div class="workflow-arrow" aria-hidden="true">→</div>
-        <div class="workflow-node">
-          <span>02</span>
-          <h3 data-i18n="flow2_title">拆成可执行系统</h3>
-          <p data-i18n="flow2_desc">明确输入、判断、工具、反馈与异常处理，而不只是写一段 Prompt。</p>
-        </div>
-        <div class="workflow-arrow" aria-hidden="true">→</div>
-        <div class="workflow-node">
-          <span>03</span>
-          <h3 data-i18n="flow3_title">快速做出原型</h3>
-          <p data-i18n="flow3_desc">用静态页、脚本或 Agent 骨架尽早验证关键假设。</p>
-        </div>
-        <div class="workflow-arrow" aria-hidden="true">→</div>
-        <div class="workflow-node">
-          <span>04</span>
-          <h3 data-i18n="flow4_title">让反馈回到系统</h3>
-          <p data-i18n="flow4_desc">通过评测集、Bad Case、人工改写与真实使用持续迭代。</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="shell section contact-section" id="contact">
-      <div class="contact-card pixel-window">
-        <div class="window-titlebar">
-          <span>new_message.txt</span>
-          <div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
-        </div>
-        <div class="contact-content">
+        <div class="hero-meta" aria-label="当前信息">
           <div>
-            <p class="eyebrow" data-i18n="contact_eyebrow">OPEN CHANNEL</p>
-            <h2 data-i18n="contact_title">一起讨论 AI 产品、Agent 或计算生物学</h2>
-            <p data-i18n="contact_desc">正在寻找 AI 产品相关机会，也欢迎交流有趣的产品与开源项目。</p>
+            <span class="meta-label" data-i18n="basedAtLabel">BASED AT</span>
+            <strong data-i18n="basedAt">中国科学技术大学</strong>
           </div>
-          <a class="pixel-button primary" href="https://github.com/netting-crypto" target="_blank" rel="noreferrer">
-            @netting-crypto ↗
-          </a>
+          <div>
+            <span class="meta-label" data-i18n="currentLabel">CURRENT</span>
+            <strong data-i18n="current">构建个人 AI 工具与研究软件</strong>
+          </div>
         </div>
+      </div>
+
+      <div class="hero-visual reveal" aria-label="个人研究工作台图形">
+        <div class="signal-card">
+          <div class="signal-topline">
+            <span>PROFILE SIGNAL</span>
+            <span class="signal-live"><i></i> LIVE</span>
+          </div>
+          <div class="signal-orbit" aria-hidden="true">
+            <div class="orbit orbit-a"></div>
+            <div class="orbit orbit-b"></div>
+            <div class="orbit orbit-c"></div>
+            <div class="orbit-axis axis-x"></div>
+            <div class="orbit-axis axis-y"></div>
+            <div class="orbit-core">
+              <span>LX</span>
+              <small>00 / 01</small>
+            </div>
+            <span class="orbit-node node-one"></span>
+            <span class="orbit-node node-two"></span>
+            <span class="orbit-node node-three"></span>
+          </div>
+          <div class="signal-console">
+            <p><span>focus_01</span><strong>AI PRODUCT SYSTEMS</strong></p>
+            <p><span>focus_02</span><strong>AGENT WORKFLOW</strong></p>
+            <p><span>focus_03</span><strong>MULTI-OMICS</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects section-shell section-block" id="projects">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-index">01</span>
+          <p class="section-label">INDEPENDENT PROJECTS</p>
+        </div>
+        <div class="section-heading-copy">
+          <h2 data-i18n="projectsTitle">正在推进的独立项目</h2>
+          <p data-i18n="projectsIntro">围绕研究解释、个人信息管理和 Agent 执行构建的长期项目。</p>
+        </div>
+      </div>
+
+      <div class="project-list" id="projectList" aria-live="polite"></div>
+    </section>
+
+    <section class="about section-shell section-block" id="about">
+      <div class="section-heading reveal">
+        <div>
+          <span class="section-index">02</span>
+          <p class="section-label">ABOUT & CONTACT</p>
+        </div>
+        <div class="section-heading-copy">
+          <h2 data-i18n="aboutTitle">背景与联系</h2>
+          <p data-i18n="aboutIntro">我的教育背景，以及目前可以公开的联系入口。</p>
+        </div>
+      </div>
+
+      <div class="about-layout">
+        <article class="about-card reveal">
+          <p class="card-eyebrow">EDUCATION</p>
+          <div class="education-row">
+            <div class="education-time" data-i18n="educationTime">在读 · 预计 2027 年毕业</div>
+            <div>
+              <h3 data-i18n="school">中国科学技术大学</h3>
+              <p data-i18n="degree">电子信息专业 · 硕士</p>
+              <p class="education-detail" data-i18n="educationDetail">
+                研究关注遗传病解释、WES 与单细胞多组学证据融合，同时持续探索 AI 产品与 Agent 的真实应用。
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <aside class="contact-card reveal">
+          <p class="card-eyebrow">CONTACT</p>
+          <h3 data-i18n="contactTitle">让想法进入下一步</h3>
+          <p data-i18n="contactDesc">目前优先通过 GitHub 展示项目；简历与邮箱入口将在内容确认后补充。</p>
+          <div class="contact-links">
+            <a href="https://github.com/netting-crypto" target="_blank" rel="noreferrer">
+              <span>GitHub</span>
+              <strong>@netting-crypto ↗</strong>
+            </a>
+            <div class="contact-placeholder">
+              <span>Resume</span>
+              <strong data-i18n="preparing">Preparing</strong>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
 
-  <footer class="footer shell">
+  <footer class="site-footer section-shell">
     <span>© 2026 LUO XIN</span>
-    <span data-i18n="footer_text">BUILT WITH HTML / CSS / JS</span>
-    <span id="localTime">--:--:--</span>
+    <span data-i18n="footer">Designed as a personal research workbench.</span>
   </footer>
-
-  <div class="fish-bubbles" aria-hidden="true">
-    <i></i><i></i><i></i>
-  </div>
-
-  <button class="fish-pet" id="fishPet" aria-label="Open pixel fish chat" type="button">
-    <span class="fish-tail"></span>
-    <span class="fish-body">
-      <i class="fish-eye"></i>
-      <i class="fish-fin"></i>
-    </span>
-  </button>
-
-  <aside class="fish-chat pixel-window" id="fishChat" aria-hidden="true">
-    <div class="window-titlebar">
-      <span>guppy.pet</span>
-      <button id="closeFish" type="button" aria-label="Close fish chat">×</button>
-    </div>
-    <div class="fish-chat-body" id="fishMessages">
-      <div class="fish-message fish">
-        <span>🐟</span>
-        <p data-i18n="fish_welcome">你好。我是一条驻扎在主页右下角的小鱼。问我项目、工作，或者生命的意义。</p>
-      </div>
-    </div>
-    <form class="fish-input" id="fishForm">
-      <input id="fishInput" type="text" autocomplete="off" data-i18n-placeholder="fish_placeholder" placeholder="和小鱼说点什么…" />
-      <button type="submit">↵</button>
-    </form>
-    <p class="fish-note" data-i18n="fish_note">当前为轻量本地对话；GuppyLM 懒加载接口已预留。</p>
-  </aside>
 
   <script src="./app.js"></script>
 </body>
