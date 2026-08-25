@@ -1,195 +1,38 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Luo Xin — AI Product, Agent and Computational Biology." />
-  <title>Luo Xin's database</title>
-  <script>
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  </script>
-  <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>骆昕 | AI Product</title>
+<link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <nav>
-    <div class="container nav-container">
-      <a class="logo" href="#intro" aria-label="Luo Xin's database">
-        <span class="logo-terminal" aria-hidden="true">
-          <span class="terminal-user">luoxin@db</span><span class="terminal-path">:~</span><span class="terminal-symbol">$</span><span class="terminal-cursor"></span>
-        </span>
-      </a>
-
-      <div class="nav-actions">
-        <div class="nav-links">
-          <a href="#projects" data-i18n="nav.projects">Projects</a>
-          <a href="#about" data-i18n="nav.about">About</a>
-        </div>
-
-        <div class="nav-controls">
-          <button class="control-btn lang-toggle" type="button" aria-label="Toggle language">English</button>
-          <button class="control-btn theme-toggle" type="button" aria-label="Toggle theme">
-            <i class="fas fa-sun sun-icon"></i>
-            <i class="fas fa-moon moon-icon"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <main>
-    <section id="intro" class="intro">
-      <div class="bg-decoration" aria-hidden="true"></div>
-      <div class="container flex-center column">
-        <div class="avatar-container">
-          <img
-            src="https://avatars.githubusercontent.com/u/101103505?v=4"
-            alt="Luo Xin"
-            class="avatar"
-            referrerpolicy="no-referrer"
-          />
-          <div class="avatar-glow" aria-hidden="true"></div>
-        </div>
-
-        <h1 class="gradient-text" data-i18n="intro.title">你好，我是骆昕</h1>
-        <p class="subtitle" data-i18n="intro.desc">
-          AI Product / Agent / Computational Biology
-        </p>
-        <p class="intro-note" data-i18n="intro.note">
-          我关注 AI 应用落地，也在尝试把产品方法与生命科学计算结合起来。
-        </p>
-
-        <div class="intro-contact-links" aria-label="Primary links">
-          <a class="intro-contact-link" href="https://github.com/netting-crypto" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github"></i>
-            <span>GitHub</span>
-          </a>
-          <span class="intro-contact-link intro-contact-link--muted" aria-disabled="true">
-            <i class="fas fa-file-lines"></i>
-            <span data-i18n="intro.resume">简历准备中</span>
-          </span>
-          <span class="intro-contact-link intro-contact-link--status">
-            <i class="fas fa-circle"></i>
-            <span data-i18n="intro.status">正在寻找 AI 产品机会</span>
-          </span>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="section-padding">
-      <div class="container">
-        <h2 data-i18n="projects.title">独立项目</h2>
-        <div class="projects-grid"></div>
-      </div>
-    </section>
-
-    <section id="about" class="section-padding">
-      <div class="container">
-        <h2 data-i18n="about.title">关于与联系</h2>
-
-        <div class="education-block reveal">
-          <div class="timeline-container education-timeline">
-            <article class="timeline-item">
-              <span class="timeline-dot" aria-hidden="true"></span>
-              <span class="timeline-date" data-i18n="about.date">2024 — 2027</span>
-              <div class="timeline-content">
-                <h3 data-i18n="about.school">中国科学技术大学</h3>
-                <p class="timeline-degree" data-i18n="about.degree">电子信息硕士</p>
-                <p data-i18n="about.copy">
-                  目前主要关注 AI 产品、Agent 工作流与生命科学计算，希望把模糊问题拆成可以验证、迭代和真正落地的系统。
-                </p>
-              </div>
-            </article>
-          </div>
-
-          <div class="education-contact" aria-label="Contact links">
-            <a href="https://github.com/netting-crypto" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-github" aria-hidden="true"></i>
-              <span>netting-crypto</span>
-              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-            <span class="education-contact-pending">
-              <i class="fas fa-envelope" aria-hidden="true"></i>
-              <span data-i18n="about.emailPending">邮箱待补充</span>
-            </span>
-            <span class="education-contact-pending">
-              <i class="fas fa-file-lines" aria-hidden="true"></i>
-              <span data-i18n="about.resumePending">简历待上传</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2026 Luo Xin · Built for the web.</p>
-  </footer>
-
-  <aside class="guppy-widget" id="guppyWidget" aria-label="Guppy fish chat">
-    <section class="guppy-chat" id="guppyChat" hidden aria-labelledby="guppyTitle">
-      <header class="guppy-chat-header">
-        <div class="guppy-heading">
-          <span class="guppy-online-dot" aria-hidden="true"></span>
-          <div>
-            <strong id="guppyTitle">一条小鱼</strong>
-            <span id="guppyStatus">点击后在浏览器中醒来</span>
-          </div>
-        </div>
-        <button class="guppy-icon-button" id="guppyClose" type="button" aria-label="关闭小鱼聊天">
-          <i class="fas fa-xmark" aria-hidden="true"></i>
-        </button>
-      </header>
-
-      <div class="guppy-messages" id="guppyMessages" aria-live="polite">
-        <div class="guppy-message guppy-message--fish">
-          <span class="guppy-message-name">fish</span>
-          <p>blub... 你好。我住在这个主页的右下角。</p>
-        </div>
-      </div>
-
-      <div class="guppy-loading-note" id="guppyLoadingNote" hidden>
-        <span class="guppy-loading-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span id="guppyLoadingText">正在加载约 10 MB 的小鱼脑袋…</span>
-      </div>
-
-      <form class="guppy-form" id="guppyForm">
-        <input
-          id="guppyInput"
-          type="text"
-          maxlength="220"
-          placeholder="和小鱼说点什么…"
-          autocomplete="off"
-          aria-label="发送给小鱼的消息"
-        />
-        <button id="guppySend" type="submit" aria-label="发送消息">
-          <i class="fas fa-arrow-up" aria-hidden="true"></i>
-        </button>
-      </form>
-
-      <footer class="guppy-credit">
-        <span>本地运行，不上传对话</span>
-        <a href="https://github.com/arman-bd/guppylm" target="_blank" rel="noopener noreferrer">GuppyLM ↗</a>
-      </footer>
-    </section>
-
-    <div class="guppy-bubbles" id="guppyBubbles" aria-hidden="true"></div>
-
-    <button class="guppy-pet" id="guppyToggle" type="button" aria-label="和小鱼聊天" aria-expanded="false">
-      <span class="guppy-pet-hint" aria-hidden="true">&gt; talk_to_fish_</span>
-      <canvas
-        class="guppy-fish"
-        id="guppyArt"
-        width="280"
-        height="289"
-        role="img"
-        aria-label="三只水彩猫举着一条蓝绿色的大鱼原地踏步"
-      ></canvas>
-    </button>
-  </aside>
-
-  <script src="./app.js"></script>
-  <script type="module" src="./guppy-pet.js"></script>
-</body>
-</html>
+<nav><div class="container nav-container"><a class="logo" href="#intro">luoxin@db:$</a></div></nav>
+<main>
+<section id="intro" class="intro"><div class="container flex-center column">
+<img class="avatar" src="https://avatars.githubusercontent.com/u/101103505?v=4" alt="Luo Xin">
+<h1 class="gradient-text">你好，我是骆昕</h1>
+<p class="subtitle">AI Product / Agent / Computational Biology</p>
+<p class="intro-note">中国科学技术大学电子信息硕士，关注 AI 应用落地、Agent 工作流和智能产品。</p>
+<a href="https://github.com/netting-crypto">GitHub: netting-crypto</a>
+</div></section>
+<section class="section-padding"><div class="container">
+<h2>教育经历</h2>
+<div class="card">
+<h3>中国科学技术大学</h3>
+<p>电子信息（生物医学工程方向）硕士 | 2023.09 - 2027.06</p>
+<p>绩点排名 Top7%，研究生一等奖学金。</p>
+<h3>东北农业大学</h3>
+<p>生物技术（卓越人才培养班）本科 | 2019.09 - 2023.06</p>
+<p>绩点排名 Top2%，黑龙江省优秀毕业生。</p>
+</div>
+<h2>实习经历</h2>
+<div class="card"><h3>字节跳动｜巨量千川-电商直播广告｜策略产品实习生</h3><p>2026.03 - 2026.07</p><p>负责直播广告生态治理、AI 实时识别链路和策略灰度上线。通过 ASR + 规则识别 + AI 语义判断 + 人审兜底，治理套路话术。</p><p>成果：人均停留提升17.4%，7日复访率提升2.5个百分点，退款率下降3.9个百分点。</p></div>
+<div class="card"><h3>腾讯 IEG 国内发行线｜AI 产品实习生</h3><p>2025.12 - 2026.03</p><p>搭建热点发现、社区智能回复和模型评测闭环，推动运营流程智能化。</p><p>成果：社区信号到动作 P50 从25.6小时降至7.4小时。</p></div>
+<div class="card"><h3>科大讯飞｜讯飞晓医｜AI 产品实习生</h3><p>2025.08 - 2025.12</p><p>负责医疗 AI 推荐策略、风险分诊和质量闭环建设。</p><p>成果：推荐卡片 CTR 提升约10%，服务承接转化率提升约25%。</p></div>
+<div class="card"><h3>字节跳动｜懂车帝智能外呼｜AI 产品实习生</h3><p>2025.05 - 2025.08</p><p>设计大模型外呼方案、对话策略和 badcase 优化闭环。</p><p>成果：复杂场景对话成功率提升至98%。</p></div>
+<div class="card"><h3>携程｜携程问道 AI 助手｜AI 产品实习生</h3><p>2025.01 - 2025.04</p><p>负责酒店决策辅助、多模态旅行场景设计。</p></div>
+</div></section>
+</main>
+<footer>© 2026 Luo Xin</footer>
+</body></html>
