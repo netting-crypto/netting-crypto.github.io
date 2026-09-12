@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f2ea" />
+  <title>Roomie｜合租生活管家</title>
+  <style>
+    :root{
+      --bg:#f6f2ea;--paper:#fffdf8;--ink:#1f2a24;--muted:#6f786f;--line:#dedfd6;
+      --green:#2f6c52;--green2:#dcebdd;--orange:#c7773b;--orange2:#f5e3d4;--red:#b8574f;--red2:#f6ddda;
+      --blue:#496d88;--blue2:#dce8f0;--shadow:0 16px 42px rgba(47,55,49,.09);--radius:24px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif}
+    button,input,select{font:inherit} button{cursor:pointer}
+    .shell{max-width:1180px;margin:0 auto;padding:28px 22px 72px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:28px}
+    .brand{display:flex;align-items:center;gap:13px}.logo{width:44px;height:44px;border-radius:14px;background:var(--green);color:white;display:grid;place-items:center;font-weight:800;font-size:20px;box-shadow:0 8px 18px rgba(47,108,82,.22)}
+    .brand h1{font-size:21px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}
+    .room-chip{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:rgba(255,253,248,.7);padding:9px 12px;border-radius:999px;font-size:13px}.avatars{display:flex}.avatar{width:28px;height:28px;border:2px solid var(--paper);border-radius:50%;display:grid;place-items:center;margin-left:-7px;background:#e4d2bf;font-size:11px;font-weight:700}.avatar:first-child{margin-left:0}.avatar:nth-child(2){background:#d7e3ef}.avatar:nth-child(3){background:#dce8d7}
+    .hero{display:grid;grid-template-columns:1.45fr .95fr;gap:18px;margin-bottom:18px}
+    .hero-main,.butler,.card,.panel{background:var(--paper);border:1px solid rgba(222,223,214,.9);box-shadow:var(--shadow);border-radius:var(--radius)}
+    .hero-main{padding:30px}.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);font-weight:800}.hero-main h2{font-size:34px;line-height:1.16;margin:9px 0 10px;max-width:650px}.hero-main p{margin:0;color:var(--muted);line-height:1.7}.hero-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+    .btn{border:0;border-radius:14px;padding:11px 16px;font-weight:700}.btn-primary{background:var(--green);color:#fff}.btn-secondary{background:#eef1eb;color:var(--ink)}.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}.btn-sm{padding:8px 11px;border-radius:11px;font-size:13px}
+    .butler{padding:24px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,#eef5ec,#fffdf8 55%)}.butler-top{display:flex;align-items:center;justify-content:space-between}.spark{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:13px;background:var(--green2);font-size:18px}.butler h3{margin:14px 0 8px;font-size:20px}.butler ul{padding:0;margin:0;list-style:none;display:grid;gap:9px;color:#47534a;font-size:14px}.butler li{display:flex;gap:9px}.dot{width:7px;height:7px;border-radius:50%;background:var(--orange);margin-top:7px;flex:none}.butler .btn{margin-top:19px;width:100%}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}.stat{padding:19px 20px;border-radius:20px;background:var(--paper);border:1px solid var(--line)}.stat .label{font-size:13px;color:var(--muted);margin-bottom:7px}.stat .value{font-size:25px;font-weight:800}.stat .hint{font-size:12px;color:var(--muted);margin-top:4px}
+    .tabs{display:flex;gap:7px;background:rgba(255,253,248,.65);padding:6px;border:1px solid var(--line);border-radius:17px;width:max-content;max-width:100%;overflow:auto;margin:10px 0 16px;position:sticky;top:10px;z-index:5;backdrop-filter:blur(12px)}.tab{white-space:nowrap;border:0;background:transparent;padding:10px 15px;border-radius:12px;color:var(--muted);font-weight:700}.tab.active{background:var(--ink);color:#fff}
+    .panel{padding:24px;display:none}.panel.active{display:block}.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}.panel-head h3{margin:0 0 5px;font-size:22px}.panel-head p{margin:0;color:var(--muted);font-size:13px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.list{display:grid;gap:12px}.item{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff}.item-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.item h4{margin:0 0 5px;font-size:16px}.meta{font-size:12px;color:var(--muted)}.money{font-weight:850;font-size:18px}.pill{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;font-size:12px;font-weight:700}.pill.green{background:var(--green2);color:var(--green)}.pill.orange{background:var(--orange2);color:#995525}.pill.red{background:var(--red2);color:var(--red)}.pill.blue{background:var(--blue2);color:var(--blue)}.people-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.person-pay{padding:8px 10px;border-radius:11px;background:#f4f3ee;font-size:12px}.item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+    .schedule{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.day-card{padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff}.day{color:var(--muted);font-size:12px}.task-title{font-weight:800;margin:7px 0 3px}.who{font-size:13px;color:var(--green)}
+    .inventory{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stock{padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff}.stock-head{display:flex;align-items:center;justify-content:space-between}.stock-icon{font-size:25px}.progress{height:8px;background:#ecece5;border-radius:999px;overflow:hidden;margin:14px 0 8px}.bar{height:100%;background:var(--green);border-radius:inherit}.bar.low{background:var(--red)}.bar.mid{background:var(--orange)}
+    .pact{display:flex;gap:13px;align-items:flex-start}.pact-num{width:34px;height:34px;border-radius:11px;background:#f0efe9;display:grid;place-items:center;font-weight:800;flex:none}.pact-body{flex:1}.agree-row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:8px}
+    .cross-link{margin-top:14px;padding:15px;border-radius:16px;background:#f1f5ef;border:1px dashed #b8cbb9;font-size:13px;color:#425047}.cross-link strong{color:var(--green)}
+    .modal{position:fixed;inset:0;background:rgba(31,42,36,.36);display:none;place-items:center;padding:20px;z-index:20}.modal.show{display:grid}.modal-box{width:min(520px,100%);background:var(--paper);border-radius:24px;padding:24px;box-shadow:0 25px 80px rgba(0,0,0,.2)}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal h3{margin:0}.close{border:0;background:#efeee8;border-radius:10px;width:34px;height:34px}.form{display:grid;gap:13px;margin-top:18px}.field{display:grid;gap:6px}.field label{font-size:12px;font-weight:700;color:var(--muted)}.field input,.field select{border:1px solid var(--line);background:#fff;padding:12px 13px;border-radius:12px;outline:none}.field input:focus,.field select:focus{border-color:var(--green)}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+    .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:30;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .reminder{margin-top:14px;padding:14px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:13px;line-height:1.65;display:none}.reminder.show{display:block}
+    footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}
+    @media(max-width:860px){.hero{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.schedule,.inventory{grid-template-columns:1fr 1fr}.hero-main h2{font-size:29px}}
+    @media(max-width:560px){.shell{padding:18px 14px 52px}header{align-items:flex-start}.brand p{display:none}.room-chip{font-size:0}.room-chip .avatars{font-size:initial}.hero-main,.butler,.panel{padding:19px}.hero-main h2{font-size:26px}.stats{gap:9px}.stat{padding:15px}.stat .value{font-size:21px}.schedule,.inventory{grid-template-columns:1fr}.panel-head{flex-direction:column}.panel-head .btn{width:100%}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand"><div class="logo">R</div><div><h1>Roomie</h1><p>合租生活管家 · 让共同生活更轻松</p></div></div>
+    <div class="room-chip"><span>望江青年公寓 · 3人之家</span><div class="avatars"><div class="avatar">昕</div><div class="avatar">王</div><div class="avatar">李</div></div></div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-main">
+      <div class="eyebrow">Shared home, shared clarity</div>
+      <h2>钱、活、东西和规则，<br>终于不用靠群聊记忆。</h2>
+      <p>把容易产生摩擦的合租琐事，变成透明、可追踪、能协商的共同生活机制。</p>
+      <div class="hero-actions"><button class="btn btn-primary" onclick="openBill()">＋ 记一笔费用</button><button class="btn btn-secondary" onclick="switchTab('clean')">查看今日值日</button></div>
+    </div>
+    <div class="butler">
+      <div>
+        <div class="butler-top"><span class="spark">✦</span><span class="pill green">今日管家</span></div>
+        <h3>今天有 3 件事值得处理</h3>
+        <ul id="butlerList"><li><span class="dot"></span><span>小李还有 ¥60 电费待结清</span></li><li><span class="dot"></span><span>今天轮到小王清洁卫生间</span></li><li><span class="dot"></span><span>卫生纸库存不足，建议补货</span></li></ul>
+      </div>
+      <button class="btn btn-primary" onclick="generateReminder()">生成友好提醒</button>
+      <div class="reminder" id="reminder">小伙伴们～今天有几件小事同步一下：小李记得有空结一下 ¥60 电费；小王今天是卫生间值日；卫生纸也快没啦，顺手补一下就好 🙌</div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><div class="label">本月待结算</div><div class="value" id="statMoney">¥268</div><div class="hint">2 笔账单待处理</div></div>
+    <div class="stat"><div class="label">今日值日</div><div class="value" style="font-size:21px">小王</div><div class="hint">卫生间 · 20 分钟</div></div>
+    <div class="stat"><div class="label">待补公共物品</div><div class="value" id="statStock">2</div><div class="hint">卫生纸 / 洗衣液</div></div>
+    <div class="stat"><div class="label">待确认公约</div><div class="value" id="statPact">1</div><div class="hint">1 位室友尚未确认</div></div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="money" onclick="switchTab('money')">费用 AA</button>
+    <button class="tab" data-tab="clean" onclick="switchTab('clean')">清洁值日</button>
+    <button class="tab" data-tab="stock" onclick="switchTab('stock')">公共物品</button>
+    <button class="tab" data-tab="pact" onclick="switchTab('pact')">室友公约</button>
+  </nav>
+
+  <section class="panel active" id="money">
+    <div class="panel-head"><div><h3>费用 AA</h3><p>谁垫付、谁参与、谁还没付，一眼看清。</p></div><button class="btn btn-primary" onclick="openBill()">＋ 新增账单</button></div>
+    <div class="grid2" id="billList">
+      <div class="item">
+        <div class="item-top"><div><h4>9 月电费</h4><div class="meta">骆昕垫付 · 3 人均摊</div></div><div class="money">¥180</div></div>
+        <div class="people-row"><span class="person-pay">昕 · 已垫付</span><span class="person-pay">小王 · ✅ 已付</span><span class="person-pay" id="lidianqi">小李 · ⏳ ¥60</span></div>
+        <div class="item-actions"><button class="btn btn-sm btn-secondary" onclick="settleLi()">标记小李已付</button><button class="btn btn-sm btn-ghost" onclick="toast('已复制友好催款文案')">友好提醒</button></div>
+      </div>
+      <div class="item">
+        <div class="item-top"><div><h4>厨房清洁用品</h4><div class="meta">小王垫付 · 3 人均摊</div></div><div class="money">¥84</div></div>
+        <div class="people-row"><span class="person-pay">小王 · 已垫付</span><span class="person-pay">骆昕 · ⏳ ¥28</span><span class="person-pay">小李 · ⏳ ¥28</span></div>
+        <div class="item-actions"><button class="btn btn-sm btn-secondary" onclick="toast('已记录本笔账单状态')">查看分摊</button></div>
+      </div>
+    </div>
+    <div class="cross-link"><strong>联动设计：</strong>公共物品完成采购后，可直接带金额生成一笔 AA 账单，减少“买了但忘记收钱”的遗漏。</div>
+  </section>
+
+  <section class="panel" id="clean">
+    <div class="panel-head"><div><h3>清洁值日</h3><p>不是死板排班：完成、换班、补做都有记录。</p></div><button class="btn btn-secondary" onclick="toast('已自动生成下周轮换排班')">自动排下周</button></div>
+    <div class="schedule">
+      <div class="day-card"><div class="day">周一 · 已完成</div><div class="task-title">厨房</div><div class="who">骆昕</div><div class="item-actions"><span class="pill green">✓ 完成</span></div></div>
+      <div class="day-card" id="todayTask"><div class="day">今天 · 周六</div><div class="task-title">卫生间</div><div class="who">小王 · 约 20 分钟</div><div class="item-actions"><button class="btn btn-sm btn-primary" onclick="finishClean()">完成</button><button class="btn btn-sm btn-ghost" onclick="toast('已向小李发起换班请求')">换班</button></div></div>
+      <div class="day-card"><div class="day">周日</div><div class="task-title">客厅 + 垃圾</div><div class="who">小李</div><div class="item-actions"><span class="pill blue">明日</span></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="stock">
+    <div class="panel-head"><div><h3>公共物品</h3><p>库存可见、缺货可记、购买后自动接费用 AA。</p></div><button class="btn btn-secondary" onclick="toast('采购清单已整理：卫生纸、洗衣液')">查看采购清单</button></div>
+    <div class="inventory">
+      <div class="stock" id="paperStock"><div class="stock-head"><div><div class="stock-icon">🧻</div><strong>卫生纸</strong></div><span class="pill red">快没了</span></div><div class="progress"><div class="bar low" style="width:14%"></div></div><div class="meta">约剩 1 天 · 负责人：小王</div><div class="item-actions"><button class="btn btn-sm btn-primary" onclick="restockPaper()">已采购 ¥36</button></div></div>
+      <div class="stock"><div class="stock-head"><div><div class="stock-icon">🧴</div><strong>洗衣液</strong></div><span class="pill orange">30%</span></div><div class="progress"><div class="bar mid" style="width:30%"></div></div><div class="meta">预计 4 天后用完 · 负责人：骆昕</div><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="toast('已加入公共采购清单')">加入采购</button></div></div>
+      <div class="stock"><div class="stock-head"><div><div class="stock-icon">🗑️</div><strong>垃圾袋</strong></div><span class="pill green">充足</span></div><div class="progress"><div class="bar" style="width:78%"></div></div><div class="meta">约够 2 周 · 负责人：小李</div><div class="item-actions"><button class="btn btn-sm btn-ghost" onclick="toast('已更新库存记录')">更新库存</button></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="pact">
+    <div class="panel-head"><div><h3>室友公约</h3><p>把“默认大家都懂”改成共同确认的生活边界。</p></div><button class="btn btn-primary" onclick="openPact()">＋ 发起新公约</button></div>
+    <div class="list" id="pactList">
+      <div class="item pact"><div class="pact-num">01</div><div class="pact-body"><h4>23:30 后降低公共区域音量</h4><div class="meta">安静时间 · 由骆昕发起</div><div class="agree-row"><span class="pill green">3 / 3 已同意</span><span class="meta">已生效</span></div></div></div>
+      <div class="item pact"><div class="pact-num">02</div><div class="pact-body"><h4>做饭后当日清理厨房台面</h4><div class="meta">公共卫生 · 由小王发起</div><div class="agree-row"><span class="pill orange" id="pactStatus">2 / 3 已同意</span><button class="btn btn-sm btn-secondary" id="agreeBtn" onclick="agreePact()">我来确认</button></div></div></div>
+      <div class="item pact"><div class="pact-num">03</div><div class="pact-body"><h4>带朋友回家前在群里提前告知</h4><div class="meta">访客规则 · 全员共同制定</div><div class="agree-row"><span class="pill green">3 / 3 已同意</span><span class="meta">已生效</span></div></div></div>
+    </div>
+  </section>
+
+  <footer>Roomie V0.1 · 为合租生活减少摩擦，而不是增加管理负担</footer>
+</div>
+
+<div class="modal" id="billModal"><div class="modal-box"><div class="modal-head"><h3>新增 AA 账单</h3><button class="close" onclick="closeModal('billModal')">×</button></div><div class="form"><div class="field"><label>账单名称</label><input id="billName" value="网络宽带费" /></div><div class="field"><label>金额</label><input id="billAmount" type="number" value="120" /></div><div class="field"><label>垫付人</label><select id="payer"><option>骆昕</option><option>小王</option><option>小李</option></select></div><div class="field"><label>分摊方式</label><select><option>3 人平均分摊</option><option>自定义分摊</option></select></div></div><div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('billModal')">取消</button><button class="btn btn-primary" onclick="addBill()">保存并计算 AA</button></div></div></div>
+<div class="modal" id="pactModal"><div class="modal-box"><div class="modal-head"><h3>发起新公约</h3><button class="close" onclick="closeModal('pactModal')">×</button></div><div class="form"><div class="field"><label>公约内容</label><input id="pactInput" value="公共区域过夜物品次日收回" /></div><div class="field"><label>分类</label><select><option>公共空间</option><option>作息</option><option>卫生</option><option>访客</option></select></div></div><div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('pactModal')">取消</button><button class="btn btn-primary" onclick="addPact()">发起并邀请确认</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+  function switchTab(id){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'})}
+  function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove('show'),2200)}
+  function openBill(){document.getElementById('billModal').classList.add('show')} function openPact(){document.getElementById('pactModal').classList.add('show')} function closeModal(id){document.getElementById(id).classList.remove('show')}
+  function generateReminder(){document.getElementById('reminder').classList.add('show');toast('已生成一条更不冒犯的室友提醒')}
+  function settleLi(){const el=document.getElementById('lidianqi');el.textContent='小李 · ✅ 已付';el.style.background='#e5f0e3';toast('小李已结清 ¥60');document.querySelector('#butlerList li:first-child').style.display='none'}
+  function finishClean(){const card=document.getElementById('todayTask');card.querySelector('.item-actions').innerHTML='<span class="pill green">✓ 已完成</span>';toast('卫生间值日已完成，辛苦啦');document.querySelectorAll('#butlerList li')[1].style.display='none'}
+  function restockPaper(){const card=document.getElementById('paperStock');card.querySelector('.pill').className='pill green';card.querySelector('.pill').textContent='已补货';card.querySelector('.bar').className='bar';card.querySelector('.bar').style.width='100%';card.querySelector('.meta').textContent='刚刚补货 · 小王采购 ¥36';card.querySelector('.item-actions').innerHTML='<button class="btn btn-sm btn-secondary" onclick="switchTab(\'money\');openBillFromStock()">生成 AA 账单</button>';document.getElementById('statStock').textContent='1';document.querySelectorAll('#butlerList li')[2].style.display='none';toast('已记录采购，可继续生成 AA 账单')}
+  function openBillFromStock(){document.getElementById('billName').value='公共物品 · 卫生纸';document.getElementById('billAmount').value='36';document.getElementById('payer').value='小王';openBill()}
+  function addBill(){const name=document.getElementById('billName').value.trim()||'新账单';const amount=Number(document.getElementById('billAmount').value||0);const payer=document.getElementById('payer').value;const each=(amount/3).toFixed(2).replace('.00','');const html=`<div class="item"><div class="item-top"><div><h4>${name}</h4><div class="meta">${payer}垫付 · 3 人均摊</div></div><div class="money">¥${amount}</div></div><div class="people-row"><span class="person-pay">${payer} · 已垫付</span><span class="person-pay">其余成员 · 每人 ¥${each}</span></div><div class="item-actions"><span class="pill blue">刚刚创建</span></div></div>`;document.getElementById('billList').insertAdjacentHTML('afterbegin',html);closeModal('billModal');switchTab('money');toast(`已创建「${name}」，每人 ¥${each}`)}
+  function agreePact(){const s=document.getElementById('pactStatus'),b=document.getElementById('agreeBtn');s.className='pill green';s.textContent='3 / 3 已同意';b.outerHTML='<span class="meta">已生效</span>';document.getElementById('statPact').textContent='0';toast('你已确认这条公约')}
+  function addPact(){const text=document.getElementById('pactInput').value.trim()||'新公约';const count=document.querySelectorAll('#pactList .item').length+1;const html=`<div class="item pact"><div class="pact-num">${String(count).padStart(2,'0')}</div><div class="pact-body"><h4>${text}</h4><div class="meta">公共空间 · 由你刚刚发起</div><div class="agree-row"><span class="pill orange">1 / 3 已同意</span><span class="meta">等待室友确认</span></div></div></div>`;document.getElementById('pactList').insertAdjacentHTML('beforeend',html);closeModal('pactModal');toast('新公约已发起，等待室友确认')}
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+</script>
+</body>
+</html>
