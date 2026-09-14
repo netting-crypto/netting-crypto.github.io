@@ -1,138 +1,219 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#111827" />
-    <title>Roomie House · 合租生活管家 V0.1</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <header class="topbar">
-        <div class="brand-block">
-          <div class="brand-mark" aria-hidden="true">R</div>
-          <div>
-            <div class="brand-line">Roomie House</div>
-            <div class="brand-subline">让这个家自己告诉你，哪里需要处理</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111419" />
+  <title>Roomie House · Welcome Home</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main class="app-shell" id="appShell">
+    <div id="scene" class="scene" aria-label="Roomie 3D 合租公寓"></div>
+
+    <header class="topbar hud-surface">
+      <div class="brand">
+        <div class="brand-mark">R</div>
+        <div>
+          <strong>Roomie House</strong>
+          <span>shared home · spatial manager</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="guideBtn" class="icon-button" type="button" aria-label="打开新手引导">?</button>
+        <button id="resetDemoBtn" class="ghost-button" type="button">Reset demo</button>
+      </div>
+    </header>
+
+    <aside id="myRoomie" class="my-roomie hud-surface" aria-label="我的待办">
+      <div class="sidebar-head">
+        <div>
+          <span class="eyebrow">MY ROOMIE</span>
+          <strong>今天与你有关</strong>
+        </div>
+        <button id="collapseSidebarBtn" class="collapse-button" type="button" aria-label="收起侧边栏">‹</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-title"><span>TO DO</span><b id="todoCount">0</b></div>
+        <div id="todoList" class="action-list"></div>
+      </div>
+      <div class="sidebar-section waiting-section">
+        <div class="section-title"><span>WAITING</span></div>
+        <div id="waitingList" class="action-list compact"></div>
+      </div>
+      <button id="timelineBtn" class="sidebar-link" type="button">查看家的时间线 →</button>
+    </aside>
+
+    <section class="scene-caption">
+      <span id="roomKicker">WELCOME HOME</span>
+      <h1 id="roomTitle">看看今天家里有什么需要处理。</h1>
+      <p id="roomDescription">左键拖动画布，右键旋转视角，滚轮缩放；物件旁的 + 用来上报新事情，! 表示这里已经有事情在等人处理。</p>
+    </section>
+
+    <nav class="quick-tools hud-surface" aria-label="快捷入口">
+      <button id="whiteboardHudBtn" class="quick-tool icon-only" type="button" title="白板" aria-label="白板">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v12H5zM8 20h8M9 16v4M15 16v4"/></svg><b id="boardBadge">1</b>
+      </button>
+      <button id="ledgerHudBtn" class="quick-tool icon-only" type="button" title="账本" aria-label="账本">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h6.5c1.5 0 2.5.6 2.5 2v13c0-1.4-1-2-2.5-2H5zM19 4.5h-5.5c-1.5 0-2.5.6-2.5 2"/></svg><b id="ledgerBadge">1</b>
+      </button>
+      <button id="historyHudBtn" class="quick-tool icon-only" type="button" title="家的记录" aria-label="家的记录">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v5l3 2M4.9 7A8 8 0 1 1 4 12M4 7v5h5"/></svg>
+      </button>
+      <button id="globalAddBtn" class="quick-tool icon-only add" type="button" title="新增" aria-label="新增">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </nav>
+
+    <section class="floorplan-card hud-surface" aria-label="户型图">
+      <div class="floorplan-header">
+        <div>
+          <span>HOUSE MAP</span>
+          <strong>公共空间</strong>
+        </div>
+        <button id="mapHomeBtn" type="button">全屋</button>
+      </div>
+      <div id="floorplan" class="floorplan"></div>
+    </section>
+
+    <aside id="objectPanel" class="object-panel" aria-live="polite">
+      <button id="closeObjectPanel" class="close-button" type="button" aria-label="关闭">×</button>
+      <span id="objectKicker" class="object-kicker">公共空间</span>
+      <h2 id="objectTitle">选择一个物件</h2>
+      <p id="objectBody">物件会成为公共事务的空间入口。</p>
+      <div id="objectMeta" class="object-meta"></div>
+      <div id="objectActions" class="object-actions"></div>
+    </aside>
+
+    <section id="ledgerOverlay" class="world-overlay" aria-label="Roomie 记账本">
+      <div class="overlay-backdrop" data-close-overlay="ledger"></div>
+      <div class="ledger-book overlay-sheet">
+        <div class="overlay-toolbar">
+          <div><span>ROOMIE LEDGER</span><strong>这个家的共同账本</strong></div>
+          <div class="overlay-toolbar-actions">
+            <button id="ledgerLocalAddBtn" class="overlay-add-button" type="button" title="新增一笔共同账目" aria-label="新增一笔共同账目">+</button>
+            <button class="close-button" data-close-overlay="ledger" type="button">×</button>
           </div>
         </div>
-        <div class="house-score" title="综合账单、清洁、物资与公约状态">
-          <span class="score-dot"></span><span>House Health</span><strong id="houseHealth">76</strong>
+        <div class="book-spread">
+          <section class="book-page">
+            <div class="page-label">待结算</div>
+            <div id="openExpenses" class="expense-list"></div>
+          </section>
+          <section class="book-page right-page">
+            <div class="page-label">最近账目</div>
+            <div id="settledExpenses" class="expense-list"></div>
+            <button id="ledgerHistoryBtn" class="paper-link" type="button">查看全部账目历史 →</button>
+          </section>
         </div>
-      </header>
+      </div>
+    </section>
 
-      <section class="workspace">
-        <aside class="left-rail">
-          <div class="rail-title">TODAY</div>
-          <h1>3 件事<br />等你处理</h1>
-          <p>点击房间里的感叹号，去事情发生的地方解决它。</p>
-          <div class="status-list" id="statusList"></div>
-          <button class="ghost-btn" id="resetBtn" type="button">重置 Demo</button>
-        </aside>
-
-        <section class="scene-panel" aria-label="合租公寓互动场景">
-          <div class="scene-toolbar">
-            <span class="live-pill"><i></i> Roomie Home · 合肥</span>
-            <button class="tiny-btn" id="homeViewBtn" type="button">⌂ 全屋</button>
+    <section id="whiteboardOverlay" class="world-overlay" aria-label="Roomie 白板">
+      <div class="overlay-backdrop" data-close-overlay="whiteboard"></div>
+      <div class="whiteboard overlay-sheet">
+        <div class="overlay-toolbar board-toolbar">
+          <div><span>ROOMIE BOARD</span><strong>共同生活的规则与讨论</strong></div>
+          <div class="overlay-toolbar-actions">
+            <button id="boardLocalAddBtn" class="overlay-add-button" type="button" title="发起新讨论" aria-label="发起新讨论">+</button>
+            <button class="close-button" data-close-overlay="whiteboard" type="button">×</button>
           </div>
+        </div>
+        <div id="ruleBoard" class="rule-board"></div>
+      </div>
+    </section>
 
-          <div class="scene-wrap" id="sceneWrap">
-            <svg class="apartment-svg" id="apartmentSvg" viewBox="0 0 960 690" role="img" aria-label="等距视角合租公寓，包含客厅、厨房、卫生间和阳台">
-              <defs>
-                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.18" /></filter>
-                <linearGradient id="livingFloor" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#eaf0ff" /><stop offset="100%" stop-color="#d9e4ff" /></linearGradient>
-                <linearGradient id="kitchenFloor" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f3f7f3" /><stop offset="100%" stop-color="#dceadf" /></linearGradient>
-                <linearGradient id="bathFloor" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#edf7f8" /><stop offset="100%" stop-color="#d8edf0" /></linearGradient>
-                <linearGradient id="balconyFloor" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff4e6" /><stop offset="100%" stop-color="#f7dec0" /></linearGradient>
-              </defs>
+    <section id="timelineOverlay" class="world-overlay" aria-label="家的时间线">
+      <div class="overlay-backdrop" data-close-overlay="timeline"></div>
+      <div class="timeline-sheet overlay-sheet">
+        <div class="overlay-toolbar">
+          <div><span>HOUSE HISTORY</span><strong>家的记录 · 每一次共同生活动作</strong></div>
+          <button class="close-button" data-close-overlay="timeline" type="button">×</button>
+        </div>
+        <div id="timelineList" class="timeline-list"></div>
+      </div>
+    </section>
 
-              <g id="houseGroup" filter="url(#softShadow)">
-                <path d="M160 220 L470 70 L825 270 L505 435 Z" fill="#cbd5e1" opacity="0.35" />
-
-                <g class="room room-living" data-room="living">
-                  <path d="M170 235 L455 98 L612 188 L325 329 Z" fill="url(#livingFloor)" />
-                  <path d="M170 235 L325 329 L325 350 L170 256 Z" fill="#c8d5f3" />
-                  <path d="M325 329 L612 188 L612 208 L325 350 Z" fill="#b7c7ec" />
-                  <text x="260" y="228" class="room-label">客厅</text>
-                  <path d="M250 242 L340 200 L393 231 L303 274 Z" fill="#6f7cc8" />
-                  <path d="M250 224 L340 182 L393 212 L393 231 L340 200 L250 242 Z" fill="#8593dc" />
-                  <path d="M303 274 L393 231 L393 247 L303 291 Z" fill="#5260ad" />
-                  <path d="M395 245 L465 211 L510 236 L440 271 Z" fill="#c7aa86" />
-                  <path d="M440 271 L510 236 L510 246 L440 281 Z" fill="#a98b69" />
-                  <ellipse cx="455" cy="229" rx="16" ry="10" fill="#f2a6ad" />
-                  <circle cx="447" cy="224" r="4" fill="#f9c1c6" /><circle cx="463" cy="224" r="4" fill="#f9c1c6" />
-                  <rect x="452" y="216" width="8" height="3" rx="1.5" fill="#b76f79" />
-                  <path d="M487 132 L560 166 L560 216 L487 181 Z" fill="#fdfdfd" stroke="#93a4c7" stroke-width="3" />
-                  <line x1="498" y1="157" x2="548" y2="180" stroke="#9ca3af" stroke-width="3" /><line x1="498" y1="168" x2="538" y2="187" stroke="#9ca3af" stroke-width="3" />
-                </g>
-
-                <g class="room room-kitchen" data-room="kitchen">
-                  <path d="M468 92 L624 18 L815 124 L659 200 Z" fill="url(#kitchenFloor)" />
-                  <path d="M659 200 L815 124 L815 145 L659 221 Z" fill="#c8dbc9" />
-                  <text x="650" y="116" class="room-label">厨房</text>
-                  <path d="M545 94 L625 55 L690 91 L610 131 Z" fill="#738a78" /><path d="M610 131 L690 91 L690 110 L610 151 Z" fill="#5e7563" />
-                  <rect x="590" y="83" width="26" height="9" rx="4" transform="rotate(-27 590 83)" fill="#d7e2db" />
-                  <ellipse cx="729" cy="132" rx="19" ry="10" fill="#55635a" /><path d="M710 132 L748 132 L742 171 L716 171 Z" fill="#718076" /><ellipse cx="729" cy="171" rx="13" ry="6" fill="#5b6960" />
-                  <line x1="760" y1="105" x2="738" y2="160" stroke="#a77743" stroke-width="6" stroke-linecap="round" /><path d="M724 157 L746 150 L754 170 L731 177 Z" fill="#d9b06d" />
-                </g>
-
-                <g class="room room-bath" data-room="bath">
-                  <path d="M620 208 L815 113 L906 164 L708 262 Z" fill="url(#bathFloor)" />
-                  <path d="M708 262 L906 164 L906 184 L708 282 Z" fill="#c5e0e4" />
-                  <text x="760" y="195" class="room-label">卫生间</text>
-                  <ellipse cx="785" cy="212" rx="30" ry="15" fill="#f8fafc" stroke="#bfd5dc" stroke-width="3" /><ellipse cx="785" cy="210" rx="15" ry="7" fill="#d9edf1" /><path d="M760 205 L761 235 L807 214 L807 196 Z" fill="#f1f5f9" opacity="0.9" />
-                  <ellipse cx="844" cy="173" rx="13" ry="8" fill="#ffffff" stroke="#d7e6ea" stroke-width="2" /><rect x="840" y="173" width="8" height="26" rx="3" fill="#fbfdff" />
-                </g>
-
-                <g class="room room-balcony" data-room="balcony">
-                  <path d="M331 342 L612 205 L706 259 L424 399 Z" fill="url(#balconyFloor)" />
-                  <path d="M424 399 L706 259 L706 280 L424 420 Z" fill="#e7cfae" />
-                  <text x="520" y="318" class="room-label">阳台 / 洗衣区</text>
-                  <path d="M565 277 L624 249 L661 270 L603 299 Z" fill="#eef2f7" /><path d="M603 299 L661 270 L661 319 L603 349 Z" fill="#d9e0e9" /><ellipse cx="633" cy="306" rx="16" ry="22" transform="rotate(62 633 306)" fill="#7c8aa1" stroke="#ffffff" stroke-width="5" />
-                  <path d="M526 280 L547 270 L560 278 L540 288 Z" fill="#63b4b6" /><path d="M540 288 L560 278 L560 310 L540 321 Z" fill="#469a9d" /><rect x="533" y="270" width="10" height="7" rx="2" fill="#2f7e82" />
-                </g>
-              </g>
-
-              <g class="hotspot-group" data-hotspot="rent" data-room="living" tabindex="0" role="button" aria-label="客厅房租待办">
-                <circle cx="455" cy="205" r="24" class="hotspot-ring urgent" /><circle cx="455" cy="205" r="17" class="hotspot-core urgent" /><text x="455" y="213" class="hotspot-text">!</text>
-              </g>
-              <g class="hotspot-group" data-hotspot="paper" data-room="bath" tabindex="0" role="button" aria-label="卫生纸补货待办">
-                <circle cx="853" cy="148" r="24" class="hotspot-ring warn" /><circle cx="853" cy="148" r="17" class="hotspot-core warn" /><text x="853" y="156" class="hotspot-text">!</text>
-              </g>
-              <g class="hotspot-group" data-hotspot="clean" data-room="kitchen" tabindex="0" role="button" aria-label="厨房清洁待办">
-                <circle cx="756" cy="86" r="24" class="hotspot-ring warn" /><circle cx="756" cy="86" r="17" class="hotspot-core warn" /><text x="756" y="94" class="hotspot-text">!</text>
-              </g>
-              <g class="hotspot-group" data-hotspot="detergent" data-room="balcony" tabindex="0" role="button" aria-label="洗衣液状态">
-                <circle cx="520" cy="271" r="20" class="hotspot-ring calm" /><circle cx="520" cy="271" r="14" class="hotspot-core calm" /><text x="520" y="277" class="hotspot-text check">✓</text>
-              </g>
-            </svg>
-
-            <div class="scene-caption" id="sceneCaption"><span class="caption-kicker">全屋总览</span><strong>哪里亮起感叹号，哪里就有一件待办。</strong></div>
+    <section id="addOverlay" class="world-overlay" aria-label="新增事项">
+      <div class="overlay-backdrop" data-close-overlay="add"></div>
+      <div class="add-sheet overlay-sheet">
+        <div class="overlay-toolbar">
+          <div><span>ADD TO HOME</span><strong>告诉这个家一件新事情</strong></div>
+          <button class="close-button" data-close-overlay="add" type="button">×</button>
+        </div>
+        <div id="addTypePicker" class="add-grid">
+          <button class="add-card" data-add-type="spatial" type="button"><b>01</b><strong>空间事项</strong><span>补货、清洁、维护，挂到一个房间或物件上</span></button>
+          <button class="add-card" data-add-type="expense" type="button"><b>02</b><strong>公共支出</strong><span>一起吃饭、采购或临时 AA</span></button>
+          <button class="add-card" data-add-type="rule" type="button"><b>03</b><strong>共同提案</strong><span>发起一条规则，让所有室友确认或讨论</span></button>
+        </div>
+        <form id="addForm" class="add-form" hidden>
+          <button id="backAddTypeBtn" class="form-back" type="button">← 返回类型</button>
+          <div class="form-title"><span id="addFormKicker">空间事项</span><strong id="addFormTitle">把一件事放回它发生的位置</strong></div>
+          <p class="demo-prefill-hint">已填入示例，可直接点“创建”；即使清空，Roomie 也会按示例生成。</p>
+          <div id="spatialFields" class="form-fields">
+            <label><span>物品 / 位置（没有就直接新建）</span><input id="spatialItemName" autocomplete="off" placeholder="例如：洗手液" /></label>
+            <label><span>发生了什么</span><input id="spatialTitle" autocomplete="off" placeholder="例如：快用完了" /></label>
+            <label><span>类别 · 自动生成轻量图标</span><select id="spatialCategory"><option value="supply">公共用品</option><option value="cleaning">清洁</option><option value="maintenance">维修</option><option value="other">其他</option></select></label>
+            <label><span>房间</span><select id="spatialRoom"><option value="bath">卫生间</option><option value="kitchen">厨房</option><option value="living">客厅</option><option value="balcony">阳台 / 洗衣区</option></select></label>
+            <label><span>谁来处理</span><select id="spatialAssignee"><option value="">先放出来，等人认领</option><option value="you">我来处理</option><option value="xiaowang">小王</option><option value="xiaoli">小李</option></select></label>
           </div>
-
-          <div class="mini-map" aria-label="房屋小地图">
-            <div class="mini-map-head"><span>HOUSE MAP</span><b id="taskCount">3 TASKS</b></div>
-            <div class="map-grid">
-              <button class="map-cell living" data-map-room="living" type="button"><span>客厅</span><i class="map-alert urgent" data-map-alert="rent">!</i></button>
-              <button class="map-cell kitchen" data-map-room="kitchen" type="button"><span>厨房</span><i class="map-alert warn" data-map-alert="clean">!</i></button>
-              <button class="map-cell balcony" data-map-room="balcony" type="button"><span>阳台</span><i class="map-alert ok">✓</i></button>
-              <button class="map-cell bath" data-map-room="bath" type="button"><span>卫生间</span><i class="map-alert warn" data-map-alert="paper">!</i></button>
-            </div>
+          <div id="expenseFields" class="form-fields" hidden>
+            <label><span>这笔钱是什么</span><input id="expenseTitleInput" autocomplete="off" placeholder="例如：今晚火锅" /></label>
+            <label><span>总金额</span><input id="expenseAmountInput" inputmode="decimal" placeholder="276" /></label>
+            <p class="form-hint">默认由 You 垫付，三人均摊；创建后直接进入共同账本。</p>
           </div>
-        </section>
-
-        <aside class="task-drawer" id="taskDrawer" aria-live="polite">
-          <div class="drawer-empty" id="drawerEmpty"><span class="empty-orbit">◎</span><h2>选一个感叹号</h2><p>任务会出现在它真实发生的位置，而不是藏在四张表格里。</p></div>
-          <div class="drawer-content is-hidden" id="drawerContent">
-            <div class="drawer-topline"><span class="task-location" id="taskLocation">客厅</span><button class="icon-btn" id="closeDrawerBtn" type="button" aria-label="关闭任务详情">×</button></div>
-            <div class="task-icon" id="taskIcon">¥</div><h2 id="taskTitle">9 月房租还差一人</h2><p id="taskDescription">本月房租共 ¥7,500，目前已经收齐 2/3。</p>
-            <div class="task-detail" id="taskDetail"></div><div class="drawer-actions" id="drawerActions"></div><div class="link-note" id="linkNote"></div>
+          <div id="ruleFields" class="form-fields" hidden>
+            <label><span>提案内容</span><textarea id="ruleTitleInput" rows="3" placeholder="例如：朋友留宿请提前一天通知"></textarea></label>
+            <p class="form-hint">提交后进入白板“待确认”，由三位室友讨论与确认。</p>
           </div>
-        </aside>
-      </section>
-      <div class="toast" id="toast" role="status"></div>
-    </main>
-    <script src="./app.js"></script>
-  </body>
+          <button id="submitAddBtn" class="primary-button form-submit" type="submit">创建</button>
+        </form>
+        <p class="add-note">也可以直接点 3D 物件旁的 +，这样 Roomie 会自动带上房间与物件位置。</p>
+      </div>
+    </section>
+
+    <section id="onboarding" class="onboarding is-open" aria-label="Roomie 新手引导">
+      <div class="welcome-card">
+        <span class="welcome-kicker">HI ROOMIE</span>
+        <h2>Welcome home.</h2>
+        <p>室友，欢迎回家。这里的公共事务会回到它真正发生的位置。</p>
+        <div class="guide-points">
+          <div><b>+</b><span>发现新事情时，从物件旁上报</span></div>
+          <div><b>!</b><span>这里已经有事情在等人处理</span></div>
+          <div><b>☰</b><span>左侧是你的待办；白板管共识，账本管钱</span></div>
+          <div><b>👉</b><span>室友迟迟没处理时，可以轻轻戳一戳</span></div>
+        </div>
+        <button id="startGuideBtn" class="primary-button" type="button">帮家里补充卫生纸</button>
+        <button id="skipGuideBtn" class="text-button" type="button">自己探索</button>
+      </div>
+    </section>
+
+    <section id="pokeOverlay" class="poke-overlay" aria-live="assertive">
+      <div class="poke-hand" aria-hidden="true"><span>👉</span></div>
+      <div class="poke-copy">
+        <span id="pokeKicker">ROOMIE POKE</span>
+        <strong id="pokeTitle">有人戳了戳你</strong>
+        <p id="pokeMessage">还有一件共同账单没结清。</p>
+        <div class="poke-actions">
+          <button id="pokeCompleteBtn" class="primary-button" type="button">我已完成</button>
+          <button id="pokeDismissBtn" class="text-button" type="button">稍后处理</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+    <div id="tooltip" class="tooltip" role="status"></div>
+    <div id="toast" class="toast" role="status"></div>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
 </html>
