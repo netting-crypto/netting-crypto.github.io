@@ -1,5 +1,5 @@
 import { projects } from './projects.js';
-import { initPool } from './pool.js?v=20261021c';
+import { initPool } from './pool.js?v=20261021e';
 const world=document.querySelector('#world'),projectPanel=document.querySelector('#project-panel'),aboutPanel=document.querySelector('#about-panel'),contactPanel=document.querySelector('#contact-panel'),panels=[projectPanel,aboutPanel,contactPanel];
 let currentView='home',currentProject='',scene,metrics,hoverKey=null;
 function layout(m){metrics=m;projectPanel.style.left=m.projectX+'px';projectPanel.style.top='0px';projectPanel.style.setProperty('--panel-w',m.paneW+'px');projectPanel.style.setProperty('--panel-h',m.H+'px');for(const p of[aboutPanel,contactPanel]){p.style.left='0px';p.style.setProperty('--panel-w',Math.max(300,m.W-m.margin*2)+'px');p.style.setProperty('--panel-h',m.paneH+'px');}aboutPanel.style.top=m.aboutZ+'px';contactPanel.style.top=m.contactZ+'px';}

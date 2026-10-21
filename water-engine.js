@@ -80,7 +80,6 @@ void main(){vec2 p=position.xy*SPAN;float epsilon=${(6.2/segments).toFixed(9)};
 
 export function createPoolBackdrop(waves,caustics){
  const uniforms={waveMap:{value:waves.texture},causticMap:{value:caustics.texture},time:{value:0},eye:{value:new THREE.Vector3(0,6,0)},viewport:{value:new THREE.Vector2(1280,800)},halfPool:{value:new THREE.Vector2(2.3,1.35)},halfFloor:{value:new THREE.Vector2(2.5,1.42)},depth:{value:1.5},night:{value:0},radius:{value:.09},sun:{value:new THREE.Vector3(.42,1,-.36).normalize()},textMap:{value:null},textHalf:{value:new THREE.Vector2(1.45,.72)},reveal:{value:1},lineReveal:{value:new THREE.Vector3(0,0,0)},titleTurn:{value:0},nameMap:{value:null},floatAtlas:{value:new THREE.DataTexture(new Uint8Array([0,0,0,0]),1,1)},atlasReady:{value:0},atlasRect:{value:Array.from({length:5},()=>new THREE.Vector4())},atlasHalf:{value:Array.from({length:5},()=>new THREE.Vector2(.3,.3))},atlasOffset:{value:Array.from({length:5},()=>new THREE.Vector2())},objectYaw:{value:new Array(5).fill(0)},objectScale:{value:new Array(5).fill(1)},projectionMap:{value:new THREE.DataTexture(new Uint8Array([0,0,0,255]),1,1)},projectionCenter:{value:new THREE.Vector2(99,99)},projectionHalf:{value:new THREE.Vector2(.40,.25)},projectionAmount:{value:0},objectPosition:{value:Array.from({length:5},()=>new THREE.Vector3(99,99,99))},objectSize:{value:Array.from({length:5},()=>new THREE.Vector3(.2,.3,.2))},objectColor:{value:[new THREE.Vector3(.04,.05,.07),new THREE.Vector3(.18,.48,.7),new THREE.Vector3(.05,.07,.12),new THREE.Vector3(1,.72,.01),new THREE.Vector3(1,1,1)]}};
- Object.assign(uniforms,{messageMap:{value:new THREE.DataTexture(new Uint8Array([0,0,0,255]),1,1)},messageRect:{value:Array.from({length:3},()=>new THREE.Vector4())},messageUV:{value:Array.from({length:3},()=>new THREE.Vector4())},messageFade:{value:[0,0,0]}});uniforms.messageMap.value.needsUpdate=true;
  uniforms.projectionMap.value.needsUpdate=true;uniforms.floatAtlas.value.needsUpdate=true;
  const material=new THREE.ShaderMaterial({uniforms,depthTest:false,depthWrite:false,extensions:{derivatives:true},vertexShader:'varying vec2 screenUV;void main(){screenUV=uv;gl_Position=vec4(position.xy,.99999,1.);}',fragmentShader:`
 precision highp float;
@@ -88,8 +87,6 @@ varying vec2 screenUV;
 ${waveGLSL}
 uniform sampler2D causticMap,textMap,nameMap,projectionMap,floatAtlas;
 uniform vec3 lineReveal;uniform float titleTurn,atlasReady,objectYaw[5],objectScale[5];uniform vec4 atlasRect[5];uniform vec2 atlasHalf[5],atlasOffset[5];
-uniform sampler2D messageMap;uniform vec4 messageRect[3],messageUV[3];uniform float messageFade[3];
-float messageShadow(vec2 p){float mask=0.;for(int i=0;i<3;i++){if(messageFade[i]<.001)continue;vec2 uv=(p-messageRect[i].xy)/max(messageRect[i].zw*2.,vec2(.001))+.5;uv.y=1.-uv.y;if(all(greaterThan(uv,vec2(0.)))&&all(lessThan(uv,vec2(1.)))){vec4 atlas=messageUV[i];mask=max(mask,texture2D(messageMap,atlas.xy+uv*atlas.zw).r*messageFade[i]);}}return mask;}
 uniform vec2 projectionCenter,projectionHalf;uniform float projectionAmount;
 uniform vec3 eye,sun;
 uniform vec2 viewport,halfPool,halfFloor,textHalf;
@@ -103,7 +100,7 @@ vec3 deck(vec2 p){
  float dist=roundedBox(p,halfPool,radius);float rim=1.-smoothstep(.18,.225,dist);float shadow=exp(-max(dist,0.)*40.)*.18;
  vec2 g=normalize(p+vec2(.001));float directional=dot(g,normalize(sun.xz));
  base=mix(base,base*(.96+.10*directional)+vec3(.045)*pow(max(0.,-directional),2.),rim*.75);base*=1.-shadow;
- return base*(1.-messageShadow(p)*.16);
+ return base;
 }
 vec4 sampleFloat(int index,vec2 offset){
  float yaw=objectYaw[index],c=cos(yaw),s=sin(yaw);vec2 local=vec2(c*offset.x-s*offset.y,s*offset.x+c*offset.y)/max(objectScale[index],.001);
@@ -128,12 +125,12 @@ vec3 floorColor(vec3 p){
  vec2 textUV=(tile+.5)*tileSize/(textHalf*2.)+.5;textUV.y=1.-textUV.y;
  if(all(greaterThan(textUV,vec2(0.)))&&all(lessThan(textUV,vec2(1.)))){float row=1.-textUV.y;float progress=row<.44?lineReveal.x:(row<.63?lineReveal.y:lineReveal.z);float ink=texture2D(textMap,textUV).r;float facing=sin(progress*1.5707963);if(row<.44){ink=mix(ink,texture2D(nameMap,textUV).r,step(.5,titleTurn));facing*=abs(cos(titleTurn*3.14159265));}float tileFace=1.-smoothstep(.47*facing,.5*facing+.001,abs(f.x-.5));if(ink>.5&&progress>.001)color=mix(color*.94,vec3(.055,.15,.28)*(.9+.2*hash(tile+2.)),(1.-grout)*tileFace);}
  vec2 projected=(p.xz-projectionCenter)/(projectionHalf*2.)+.5;projected.y=1.-projected.y;if(projectionAmount>.001&&all(greaterThan(projected,vec2(0.)))&&all(lessThan(projected,vec2(1.)))){float e=min(min(projected.x,1.-projected.x),min(projected.y,1.-projected.y));vec3 image=texture2D(projectionMap,projected).rgb;color=mix(color*.35,image*1.35,projectionAmount*smoothstep(0.,.06,e));}
- float c=illumination(p);float web=1.+(clamp(c,.55,3.)-1.)*.62;float shadow=shadowAt(p)*(1.-messageShadow(p.xz)*.88);vec3 energy=mix(vec3(.28,.58,.64),vec3(.07,.24,.31),night)+mix(vec3(1.,.97,.9)*web*.95*shadow,vec3(.20,.23,.29)*web*.95*shadow,night);
- energy+=night*lamps(p,vec3(0.,1.,0.)).rgb;float ao=smoothstep(0.,.32,min(halfFloor.x-abs(p.x),halfFloor.y-abs(p.z)));return color*energy*mix(.75,1.,ao)*(1.-messageShadow(p.xz)*.22);
+ float c=illumination(p);float web=1.+(clamp(c,.55,3.)-1.)*.62;float shadow=shadowAt(p);vec3 energy=mix(vec3(.28,.58,.64),vec3(.07,.24,.31),night)+mix(vec3(1.,.97,.9)*web*.95*shadow,vec3(.20,.23,.29)*web*.95*shadow,night);
+ energy+=night*lamps(p,vec3(0.,1.,0.)).rgb;float ao=smoothstep(0.,.32,min(halfFloor.x-abs(p.x),halfFloor.y-abs(p.z)));return color*energy*mix(.75,1.,ao);
 }
 vec3 wallColor(vec3 p,vec3 n){
  vec3 sl=-refract(-sun,vec3(0.,1.,0.),1./1.333);float diffuse=max(dot(n,sl),0.);float k=clamp(-p.y/depth,0.,1.);float web=mix(1.,1.+(clamp(illumination(p),.55,3.)-1.)*.62,k);vec3 c=vec3(.30,.86,.96);
- vec3 energy=mix(vec3(.28,.58,.64),vec3(.07,.24,.31),night)*(1.-k*.2)+mix(vec3(1.,.97,.9),vec3(.20,.23,.29),night)*diffuse*web*1.1*shadowAt(p);vec4 lamp=lamps(p,n);energy+=night*lamp.rgb;c*=energy*(1.-messageShadow(p.xz-n.xz*.12)*.60);return c+night*lamp.a*vec3(1.,.84,.66);
+ vec3 energy=mix(vec3(.28,.58,.64),vec3(.07,.24,.31),night)*(1.-k*.2)+mix(vec3(1.,.97,.9),vec3(.20,.23,.29),night)*diffuse*web*1.1*shadowAt(p);vec4 lamp=lamps(p,n);energy+=night*lamp.rgb;c*=energy;return c+night*lamp.a*vec3(1.,.84,.66);
 }
 float wallDistance(float p,float py,float r,float ry,float lip,float lean){float s=r>=0.?1.:-1.;return (lip-s*p-lean*py)/(s*r+lean*ry);}
 vec3 underwater(vec3 origin,vec3 ray){

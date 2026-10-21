@@ -1,9 +1,8 @@
 import * as THREE from './assets/three.module.js';
 import { GLTFLoader } from './assets/GLTFLoader.js';
-import { bakeFloatAtlas } from './float-atlas.js?v=20261021c';
-import { createWaterMessages } from './water-messages.js?v=20261021c';
+import { bakeFloatAtlas } from './float-atlas.js?v=20261021e';
 const NO_RIPPLES=[];
-import { WaveField,CausticField,createPoolBackdrop } from './water-engine.js?v=20261021c';
+import { WaveField,CausticField,createPoolBackdrop } from './water-engine.js?v=20261021e';
 
 export function initPool({theme,onSelect,onLayout,onFrame,onHover,onReady}){
  const canvas=document.querySelector('#pool');
@@ -11,7 +10,7 @@ export function initPool({theme,onSelect,onLayout,onFrame,onHover,onReady}){
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
  renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.NoToneMapping;renderer.localClippingEnabled=true;renderer.setClearColor(0xf4f3f0,1);
  const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(34,1,.05,80);camera.up.set(0,0,-1);
- const waves=new WaveField(renderer,344),caustics=new CausticField(renderer,waves),backdrop=createPoolBackdrop(waves,caustics);scene.add(backdrop.mesh);const messages=createWaterMessages(backdrop.uniforms);
+ const waves=new WaveField(renderer,344),caustics=new CausticField(renderer,waves),backdrop=createPoolBackdrop(waves,caustics);scene.add(backdrop.mesh);
  const sky=new THREE.HemisphereLight(0xe4f5ff,0x657e91,2.2);scene.add(sky);const sun=new THREE.DirectionalLight(0xfff7e4,2.3);sun.position.set(.42,1,-.36).multiplyScalar(5);scene.add(sun);
  const fill=new THREE.DirectionalLight(0xb2dbff,.55);fill.position.set(-3,2,2);scene.add(fill);
  const clipPlane=new THREE.Plane(new THREE.Vector3(0,1,0),.025);
@@ -68,7 +67,6 @@ export function initPool({theme,onSelect,onLayout,onFrame,onHover,onReady}){
  resize();
  function tick(now){requestAnimationFrame(tick);const elapsedSeconds=Math.min(.25,(now-last)/1000),dt=Math.min(.04,elapsedSeconds);last=now;if(!visible)return;time+=elapsedSeconds;
   if(animation){animation.elapsed=(now-animation.started)/1000;const t=Math.min(1,animation.elapsed/animation.duration);const e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;current.copy(animation.from).lerp(animation.target,e);if(t===1)animation=null;}
-  messages.update(time,half,reduce.matches);
   eye.set(current.x,homeY,current.y);camera.position.copy(eye);camera.lookAt(current.x,0,current.y);camera.updateMatrixWorld();backdrop.uniforms.eye.value.copy(eye);onFrame?.({x:W/2-current.x*ppu,y:H/2-current.y*ppu,moving:!!animation,view});
   night+=(nightTarget-night)*(1-Math.exp(-dt*7));backdrop.uniforms.night.value=night;sky.intensity=2.2-night*1.3;sun.intensity=2.3-night*1.65;fill.intensity=.55+night*.25;sun.color.setRGB(1-night*.5,.97-night*.39,.9-night*.2);
   if(!reduce.matches){accumulator+=dt;let n=0;while(accumulator>=1/108&&n<5){waves.step();accumulator-=1/108;n++;}if(n===5)accumulator=0;}backdrop.uniforms.waveMap.value=waves.texture;backdrop.uniforms.time.value=reduce.matches?0:time;backdrop.uniforms.reveal.value=reduce.matches?2:Math.max(0,(time-.55)/1.25);
