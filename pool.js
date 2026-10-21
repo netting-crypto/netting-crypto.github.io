@@ -1,8 +1,8 @@
 import * as THREE from './assets/three.module.js';
 import { GLTFLoader } from './assets/GLTFLoader.js';
-import { bakeFloatAtlas } from './float-atlas.js?v=20261021f';
+import { bakeFloatAtlas } from './float-atlas.js?v=20261021g';
 const NO_RIPPLES=[];
-import { WaveField,CausticField,createPoolBackdrop } from './water-engine.js?v=20261021f';
+import { WaveField,CausticField,createPoolBackdrop } from './water-engine.js?v=20261021g';
 
 export function initPool({theme,onSelect,onLayout,onFrame,onHover,onReady}){
  const canvas=document.querySelector('#pool');
@@ -31,19 +31,44 @@ export function initPool({theme,onSelect,onLayout,onFrame,onHover,onReady}){
  const loader=new GLTFLoader();
  async function loadModel(f,path,length){const loaded=await loader.loadAsync(path);const object=loaded.scene;const bounds=new THREE.Box3().setFromObject(object),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());const k=length/Math.max(size.x,size.z);object.position.sub(center);const wrap=new THREE.Group();wrap.add(object);wrap.scale.setScalar(k);f.group.add(wrap);f.half.copy(size).multiplyScalar(k/2);f.baseY=f.half.y*.75;object.traverse(m=>{if(m.isMesh){m.material.clippingPlanes=[clipPlane];m.material.roughness=.5;}});}
  async function loadCharacter(){
-  const loaded=await loader.loadAsync('./assets/models/kenney/character-female-f.glb');
-  const object=loaded.scene,pose=new THREE.Group();
-  const clip=loaded.animations.find(a=>a.name==='idle')||loaded.animations.find(a=>a.name==='static');
-  if(clip){const mixer=new THREE.AnimationMixer(object),action=mixer.clipAction(clip);action.play();mixer.setTime(.4);action.paused=true;about.poseMixer=mixer;}
-  object.updateMatrixWorld(true);
-  const original=new THREE.Box3().setFromObject(object,true);object.position.sub(original.getCenter(new THREE.Vector3()));
-  pose.add(object);pose.rotation.x=-1.05;pose.updateMatrixWorld(true);
-  let bounds=new THREE.Box3().setFromObject(pose,true),size=bounds.getSize(new THREE.Vector3());
-  pose.scale.setScalar(.62/Math.max(size.x,size.z));pose.updateMatrixWorld(true);
-  bounds=new THREE.Box3().setFromObject(pose,true);pose.position.sub(bounds.getCenter(new THREE.Vector3()));pose.updateMatrixWorld(true);
-  bounds=new THREE.Box3().setFromObject(pose,true);about.half.copy(bounds.getSize(new THREE.Vector3())).multiplyScalar(.5);about.baseY=about.half.y*.72;
-  object.traverse(m=>{if(m.isMesh){for(const mat of Array.isArray(m.material)?m.material:[m.material]){mat.clippingPlanes=[clipPlane];mat.roughness=.65;}}});
-  about.group.add(pose);
+  // A reclining ceramic-like kitten: its face points up toward the visitor.
+  const cat=new THREE.Group(),fur=material(0xf4b66d,{roughness:.42}),cream=material(0xfff6e5,{roughness:.5}),pink=material(0xeaa6a2),ink=material(0x352d30),shine=material(0xffffff);
+  const sphere=new THREE.SphereGeometry(1,32,24);
+  const ball=(mat,x,y,z,sx,sy,sz)=>mesh(cat,sphere,mat,x,y,z,sx,sy,sz);
+  const stroke=(pts,r,mat)=>mesh(cat,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(...p))),24,r,8,false),mat);
+  ball(fur,0,0,.105,.145,.115,.185);
+  ball(cream,0,.095,.115,.108,.035,.145);
+  // The tail curls around the right side instead of reading as an extra leg.
+  stroke([[.09,-.015,.24],[.21,.008,.24],[.25,.025,.15],[.235,.05,.065],[.20,.06,.055]],.032,fur);
+  ball(cream,.20,.06,.055,.033,.033,.035);
+  for(const side of [-1,1]){
+   ball(fur,side*.135,.06,.035,.055,.055,.085);
+   ball(cream,side*.105,.04,.255,.065,.05,.075);
+   for(const toe of [-1,1])ball(pink,side*.105+toe*.019,.086,.278,.010,.007,.013);
+  }
+  ball(fur,0,.035,-.13,.173,.13,.15);
+  const ear=new THREE.Shape();ear.moveTo(-.06,0);ear.quadraticCurveTo(-.058,.025,-.025,.105);ear.quadraticCurveTo(-.01,.13,.006,.105);ear.lineTo(.06,0);ear.quadraticCurveTo(0,-.025,-.06,0);
+  const earGeo=new THREE.ExtrudeGeometry(ear,{depth:.045,bevelEnabled:true,bevelSize:.013,bevelThickness:.012,bevelSegments:4,steps:1,curveSegments:16});earGeo.rotateX(-Math.PI/2);
+  for(const side of [-1,1]){
+   mesh(cat,earGeo,fur,side*.112,.055,-.225);
+   const inner=mesh(cat,earGeo,pink,side*.112,.108,-.23,.52,.2,.62);
+   ball(cream,side*.047,.155,-.09,.059,.018,.042);
+   ball(ink,side*.066,.155,-.161,.018,.011,.024);
+   ball(shine,side*.069-.004,.166,-.168,.006,.003,.007);
+   ball(pink,side*.107,.136,-.105,.025,.006,.013);
+   for(const offset of [-1,1])stroke([[side*.084,.151,-.103+offset*.012],[side*.125,.143,-.098+offset*.022]],.002,ink);
+  }
+  ball(pink,0,.178,-.107,.016,.009,.012);
+  stroke([[0,.174,-.102],[0,.174,-.083],[-.013,.171,-.074],[-.024,.169,-.083]],.003,ink);
+  stroke([[0,.174,-.083],[.013,.171,-.074],[.024,.169,-.083]],.003,ink);
+  // Subtle orange forehead markings and a small collar bell.
+  for(const x of [-.035,0,.035])ball(cream,x,.146,-.225,.009,.008,.031);
+  ball(material(0x89beb9),0,.109,-.002,.09,.018,.015);
+  ball(material(0xe8ba54,{roughness:.3}),0,.137,.005,.018,.018,.018);
+  cat.rotation.y=-.12;cat.updateMatrixWorld(true);
+  const bounds=new THREE.Box3().setFromObject(cat,true);cat.position.sub(bounds.getCenter(new THREE.Vector3()));cat.updateMatrixWorld(true);
+  about.half.copy(new THREE.Box3().setFromObject(cat,true).getSize(new THREE.Vector3())).multiplyScalar(.5);about.baseY=about.half.y*.8;
+  about.group.add(cat);
  }
  const modelJobs=[{float:about,task:loadCharacter()},{float:duck,task:loadModel(duck,'./assets/models/duck.glb',.48)},{float:cloud,task:loadModel(cloud,'./assets/models/cloud.glb',.44)}];
  Promise.allSettled(modelJobs.map(job=>job.task)).then(results=>{for(let i=0;i<results.length;i++)if(results[i].status==='rejected'){console.warn('Model not loaded',modelJobs[i].float.key);canvas.dataset.modelError='true';}if(results.every(r=>r.status==='fulfilled')){try{const atlas=bakeFloatAtlas(renderer,floats);backdrop.uniforms.floatAtlas.value.dispose();backdrop.uniforms.floatAtlas.value=atlas.texture;backdrop.uniforms.atlasRect.value=atlas.rects;backdrop.uniforms.atlasHalf.value=atlas.halves;backdrop.uniforms.atlasOffset.value=atlas.offsets;backdrop.uniforms.atlasReady.value=1;}catch(e){console.warn('Float outline rendering unavailable',e.message);}}onReady?.();});

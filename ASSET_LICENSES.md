@@ -34,8 +34,6 @@ Graph AI Workspace 与 ScholarPulse 的演示视频来自用户已有文件，�
 
 旧版本留下的 `water.jpg` 是内置图像生成工具创建的泳池纹理；当前实时水面不使用该纹理。它只作为旧样式中未启用的备用资源保留。
 
-## 女孩人物
+## 漂浮猫咪
 
-`assets/models/kenney/character-female-f.glb` 与 `Textures/colormap.png` 来自 [Kenney Mini Characters 1.0](https://kenney.nl/assets/mini-characters)，作者 Kenney，CC0。原始许可见 `assets/models/kenney/LICENSE.txt`。
-
-模型文件与贴图未修改。网页中选取 idle 动画的一帧作为自然姿态，调整大小、朝向、材质粗糙度及水面裁切；阴影图集使用相同姿态的模型。女孩替代了先前独立制作的示意人物。
+猫咪由本项目使用 Three.js 几何体独立构建，造型代码位于 `pool.js`，包含圆润身体、耳朵、爪子、卷尾巴及面部细节，不依赖外部猫咪模型。此前的 Kenney 女孩模型与贴图已从当前发布包移除。
