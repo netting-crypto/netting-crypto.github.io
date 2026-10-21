@@ -1,4 +1,5 @@
 import * as THREE from './assets/three.module.js';
+import { clone as cloneSkeleton } from './assets/SkeletonUtils.js';
 
 // Capture the actual model outlines and colours, including transparent model materials.
 // The shader can then bend a duck-shaped reflection rather than an ellipse.
@@ -15,8 +16,8 @@ export function bakeFloatAtlas(renderer,floats){
  try{
   renderer.setRenderTarget(target);renderer.setScissorTest(false);renderer.setClearColor(0x000000,0);renderer.clear();
   for(const [i,f]of floats.entries()){
-   const copy=new THREE.Group();for(const child of f.group.children)copy.add(child.clone(true));copy.position.set(0,f.baseY,0);copy.scale.setScalar(f.scale);copy.updateMatrixWorld(true);
-   const bounds=new THREE.Box3().setFromObject(copy),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
+   const copy=new THREE.Group();for(const child of f.group.children)copy.add(cloneSkeleton(child));copy.position.set(0,f.baseY,0);copy.scale.setScalar(f.scale);copy.updateMatrixWorld(true);
+   const bounds=new THREE.Box3().setFromObject(copy,true),size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
    const radius=Math.max(size.x,size.z)*.54+.015;
    const x=(i%columns)*cell,y=Math.floor(i/columns)*cell;
    rects.push(new THREE.Vector4(x/target.width,y/target.height,cell/target.width,cell/target.height));halves.push(new THREE.Vector2(radius,radius));offsets.push(new THREE.Vector2(center.x,center.z));
